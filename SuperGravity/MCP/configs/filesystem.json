@@ -1,9 +1,6 @@
 {
   "filesystem": {
     "command": "npx",
-    "args": [
-      "-y",
-      "@anthropic/mcp-filesystem"
-    ]
+    "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/directory"]
   }
 }

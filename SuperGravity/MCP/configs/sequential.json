@@ -1,9 +1,6 @@
 {
   "sequential-thinking": {
     "command": "npx",
-    "args": [
-      "-y",
-      "@anthropic/mcp-sequential-thinking"
-    ]
+    "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
   }
 }

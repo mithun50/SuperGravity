@@ -1,9 +1,6 @@
 {
   "memory": {
     "command": "npx",
-    "args": [
-      "-y",
-      "@anthropic/mcp-memory"
-    ]
+    "args": ["-y", "@modelcontextprotocol/server-memory"]
   }
 }

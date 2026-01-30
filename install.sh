@@ -140,13 +140,16 @@ MCP_FILE="$ANTIGRAVITY_DIR/mcp_config.json"
 
 echo "Select MCP servers to add:"
 echo ""
-echo "  1. context7           - Framework documentation"
-echo "  2. sequential-thinking - Complex reasoning"
-echo "  3. playwright         - Browser testing"
-echo "  4. magic              - UI components (needs API key)"
-echo "  5. tavily             - Web search (needs API key)"
-echo "  6. github             - GitHub ops (needs token)"
-echo "  7. postgres           - Database (needs URL)"
+echo "  1. context7           - Framework documentation (@upstash/context7-mcp)"
+echo "  2. sequential-thinking - Complex reasoning (@modelcontextprotocol/server-sequential-thinking)"
+echo "  3. playwright         - Browser testing (@playwright/mcp)"
+echo "  4. magic              - UI components (needs API key) (@21st-dev/magic)"
+echo "  5. tavily             - Web search (needs API key) (tavily-mcp)"
+echo "  6. github             - GitHub ops (needs token) (Docker)"
+echo "  7. postgres           - Database (needs URL) (@modelcontextprotocol/server-postgres)"
+echo "  8. filesystem         - File operations (@modelcontextprotocol/server-filesystem)"
+echo "  9. memory             - Persistent memory (@modelcontextprotocol/server-memory)"
+echo "  10. firecrawl         - Web scraping (needs API key) (firecrawl-mcp)"
 echo ""
 echo "Enter numbers (e.g., '1 2 3') or 'skip' to skip:"
 read -r MCP_SELECTION
@@ -163,7 +166,7 @@ if [ "$MCP_SELECTION" != "skip" ] && [ -n "$MCP_SELECTION" ]; then
                 cat >> "$TEMP_MCPS" << 'EOF'
     "context7": {
       "command": "npx",
-      "args": ["-y", "@context7/mcp"]
+      "args": ["-y", "@upstash/context7-mcp@latest"]
     },
 EOF
                 echo "  + context7"
@@ -172,7 +175,7 @@ EOF
                 cat >> "$TEMP_MCPS" << 'EOF'
     "sequential-thinking": {
       "command": "npx",
-      "args": ["-y", "@anthropic/mcp-sequential-thinking"]
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
     },
 EOF
                 echo "  + sequential-thinking"
@@ -181,7 +184,7 @@ EOF
                 cat >> "$TEMP_MCPS" << 'EOF'
     "playwright": {
       "command": "npx",
-      "args": ["-y", "@anthropic/mcp-playwright"]
+      "args": ["-y", "@playwright/mcp@latest"]
     },
 EOF
                 echo "  + playwright"
@@ -193,8 +196,8 @@ EOF
                     cat >> "$TEMP_MCPS" << EOF
     "magic": {
       "command": "npx",
-      "args": ["-y", "@21st/magic-mcp"],
-      "env": { "TWENTY_FIRST_API_KEY": "$KEY" }
+      "args": ["-y", "@21st-dev/magic@latest"],
+      "env": { "TWENTYFIRST_API_KEY": "$KEY" }
     },
 EOF
                     echo "  + magic"
@@ -207,7 +210,7 @@ EOF
                     cat >> "$TEMP_MCPS" << EOF
     "tavily": {
       "command": "npx",
-      "args": ["-y", "@anthropic/mcp-tavily"],
+      "args": ["-y", "tavily-mcp@latest"],
       "env": { "TAVILY_API_KEY": "$KEY" }
     },
 EOF
@@ -220,9 +223,9 @@ EOF
                 if [ -n "$KEY" ]; then
                     cat >> "$TEMP_MCPS" << EOF
     "github": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/mcp-github"],
-      "env": { "GITHUB_TOKEN": "$KEY" }
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "-e", "GITHUB_PERSONAL_ACCESS_TOKEN", "ghcr.io/github/github-mcp-server"],
+      "env": { "GITHUB_PERSONAL_ACCESS_TOKEN": "$KEY" }
     },
 EOF
                     echo "  + github"
@@ -235,11 +238,42 @@ EOF
                     cat >> "$TEMP_MCPS" << EOF
     "postgres": {
       "command": "npx",
-      "args": ["-y", "@anthropic/mcp-postgres"],
-      "env": { "POSTGRES_URL": "$KEY" }
+      "args": ["-y", "@modelcontextprotocol/server-postgres", "$KEY"]
     },
 EOF
                     echo "  + postgres"
+                fi
+                ;;
+            8)
+                cat >> "$TEMP_MCPS" << 'EOF'
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/directory"]
+    },
+EOF
+                echo "  + filesystem"
+                ;;
+            9)
+                cat >> "$TEMP_MCPS" << 'EOF'
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    },
+EOF
+                echo "  + memory"
+                ;;
+            10)
+                echo -n "    Firecrawl API key: "
+                read -r KEY
+                if [ -n "$KEY" ]; then
+                    cat >> "$TEMP_MCPS" << EOF
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": { "FIRECRAWL_API_KEY": "$KEY" }
+    },
+EOF
+                    echo "  + firecrawl"
                 fi
                 ;;
         esac

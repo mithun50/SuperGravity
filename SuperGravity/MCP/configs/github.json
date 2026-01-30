@@ -1,12 +1,13 @@
 {
   "github": {
-    "command": "npx",
+    "command": "docker",
     "args": [
-      "-y",
-      "@anthropic/mcp-github"
+      "run", "-i", "--rm",
+      "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "ghcr.io/github/github-mcp-server"
     ],
     "env": {
-      "GITHUB_TOKEN": ""
+      "GITHUB_PERSONAL_ACCESS_TOKEN": ""
     }
   }
 }

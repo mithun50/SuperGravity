@@ -1,10 +1,7 @@
 {
   "postgres": {
     "command": "npx",
-    "args": [
-      "-y",
-      "@anthropic/mcp-postgres"
-    ],
+    "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost/mydb"],
     "env": {
       "POSTGRES_URL": ""
     }
