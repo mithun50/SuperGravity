@@ -33,10 +33,26 @@ your-project/
 └── .agent/
     ├── rules/                        # Project-specific rules
     │   └── workspace.md
-    └── workflows/                    # Project-specific workflows
-        ├── dev.md
-        ├── build.md
-        └── pr.md
+    ├── workflows/                    # Project-specific workflows
+    │   ├── dev.md
+    │   ├── build.md
+    │   └── pr.md
+    └── skills/                       # Project-specific skills
+        └── my-skill/
+            └── SKILL.md
+```
+
+### Skills Directory
+
+```
+~/.gemini/antigravity/skills/        # Global skills (all projects)
+├── fullstack-architect/
+│   └── SKILL.md
+├── security-engineer/
+│   └── SKILL.md
+├── test-engineer/
+│   └── SKILL.md
+└── ... (12 skills total)
 ```
 
 ---
@@ -255,6 +271,83 @@ Additional instructions...
 |------|------|
 | Global | `~/.gemini/antigravity/global_workflows/` |
 | Workspace | `.agent/workflows/` |
+
+---
+
+## Skills
+
+### SKILL.md Format
+
+```markdown
+---
+name: skill-identifier
+description: Trigger phrase for when to activate this skill.
+---
+
+# Skill Name
+
+## Goal
+
+Clear statement of what this skill does.
+
+## Instructions
+
+1. **Step One**
+   - Details
+
+2. **Step Two**
+   - Details
+
+## Examples
+
+**User**: "Example request"
+**Action**: What the skill does.
+
+## Constraints
+
+- Do NOT do this
+- ALWAYS do that
+```
+
+### Frontmatter Fields
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `name` | No | Skill identifier (defaults to directory name) |
+| `description` | **Yes** | Trigger phrase - critical for activation |
+
+### Body Sections
+
+| Section | Required | Description |
+|---------|----------|-------------|
+| `Goal` | Yes | Clear capability statement |
+| `Instructions` | Yes | Step-by-step logic |
+| `Examples` | Yes | Few-shot demonstrations |
+| `Constraints` | Yes | Boundaries and rules |
+
+### Location
+
+| Scope | Path |
+|-------|------|
+| Global | `~/.gemini/antigravity/skills/<name>/SKILL.md` |
+| Workspace | `.agent/skills/<name>/SKILL.md` |
+
+### Included Skills
+
+| Skill | Description |
+|-------|-------------|
+| `fullstack-architect` | Scaffold full-stack projects |
+| `backend-engineer` | Build APIs and server-side code |
+| `frontend-specialist` | Create UI components |
+| `api-designer` | Design REST/GraphQL APIs |
+| `database-expert` | Schema design and queries |
+| `security-engineer` | Security audits (OWASP) |
+| `test-engineer` | Test suite generation |
+| `devops-engineer` | CI/CD and infrastructure |
+| `code-reviewer` | Code quality reviews |
+| `refactoring-expert` | Safe code refactoring |
+| `performance-optimizer` | Performance optimization |
+| `documentation-writer` | Documentation generation |
 
 ---
 

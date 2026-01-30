@@ -277,6 +277,7 @@ def init(path: str, rules: bool, workflows: bool):
     Creates the workspace-level configuration structure:
     - .agent/rules/      - Workspace-specific rules
     - .agent/workflows/  - Workspace-specific workflows
+    - .agent/skills/     - Workspace-specific skills
     """
     workspace = Path(path).resolve()
     agent_dir = workspace / ".agent"
@@ -291,6 +292,7 @@ def init(path: str, rules: bool, workflows: bool):
         # Create .agent directory structure
         (agent_dir / "rules").mkdir(parents=True, exist_ok=True)
         (agent_dir / "workflows").mkdir(parents=True, exist_ok=True)
+        (agent_dir / "skills").mkdir(parents=True, exist_ok=True)
 
         created_files = []
 
@@ -398,7 +400,8 @@ description: Prepare and create a pull request
         console.print("\n[bold green]Workspace initialized![/bold green]")
         console.print(f"\nCreated: [cyan]{agent_dir.relative_to(workspace)}/[/cyan]")
         console.print("  ├── rules/      - Workspace-specific rules")
-        console.print("  └── workflows/  - Workspace-specific workflows")
+        console.print("  ├── workflows/  - Workspace-specific workflows")
+        console.print("  └── skills/     - Workspace-specific skills")
 
         if created_files:
             console.print("\n[dim]Created files:[/dim]")
@@ -407,6 +410,7 @@ description: Prepare and create a pull request
 
         console.print("\n[yellow]Tip:[/yellow] Edit files in .agent/ to customize for your project.")
         console.print("[yellow]Tip:[/yellow] Use /dev, /build, /pr in Antigravity to trigger workflows.")
+        console.print("[yellow]Tip:[/yellow] Add custom skills in .agent/skills/<name>/SKILL.md")
 
     except Exception as e:
         console.print(f"\n[bold red]Error:[/bold red] {e}")

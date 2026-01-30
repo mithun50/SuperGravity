@@ -8,14 +8,22 @@ All notable changes to SuperGravity will be documented in this file.
 
 #### Workspace Initialization
 - **`supergravity init`** - Initialize `.agent/` workspace structure
-- Creates `.agent/rules/` and `.agent/workflows/` directories
+- Creates `.agent/rules/`, `.agent/workflows/`, and `.agent/skills/` directories
 - Generates sample workspace rules and workflows:
   - `.agent/rules/workspace.md` - Project-specific rules
   - `.agent/workflows/dev.md` - Start dev server
   - `.agent/workflows/build.md` - Build project
   - `.agent/workflows/pr.md` - Create pull request
+- Ready for custom workspace-level skills
+
+#### Skills System
+- **12 AI Skills** installed to `~/.gemini/antigravity/skills/`
+- Skills activate on-demand based on user request
+- Includes: fullstack-architect, security-engineer, test-engineer, database-expert, etc.
+- Skills use SKILL.md format with Goal, Instructions, Examples, Constraints sections
 
 #### Documentation
+- **docs/skills.md** - Complete skills guide (NEW)
 - **docs/workflows.md** - Complete workflow guide
 - **docs/mcp-servers.md** - MCP server setup and usage
 - **docs/configuration.md** - Configuration reference

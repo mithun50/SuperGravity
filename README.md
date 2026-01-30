@@ -19,6 +19,7 @@
 
 SuperGravity transforms Google Antigravity IDE into a structured development platform with:
 
+- **12 AI Skills** - Specialized capabilities (fullstack-architect, security-engineer, etc.)
 - **9 Global Workflows** - Slash commands for common tasks (`/scaffold`, `/deploy`, etc.)
 - **Workspace Support** - Initialize projects with `.agent/` structure
 - **Integrated Rules** - Code quality and security guidelines in GEMINI.md
@@ -292,8 +293,61 @@ GitHub MCP requires Docker. Install from [docker.com](https://docker.com).
 
 ---
 
+## Skills
+
+SuperGravity includes 12 AI skills that activate on-demand:
+
+| Skill | Purpose |
+|-------|---------|
+| `fullstack-architect` | Design and scaffold full-stack applications |
+| `backend-engineer` | Build APIs and server-side code |
+| `frontend-specialist` | Create responsive UI components |
+| `api-designer` | Design REST and GraphQL APIs |
+| `database-expert` | Schema design and query optimization |
+| `security-engineer` | Security audits following OWASP |
+| `test-engineer` | Generate comprehensive test suites |
+| `devops-engineer` | CI/CD pipelines and infrastructure |
+| `code-reviewer` | Code quality and security reviews |
+| `refactoring-expert` | Safe code refactoring |
+| `performance-optimizer` | Performance analysis and optimization |
+| `documentation-writer` | Generate documentation |
+
+Skills activate automatically when your request matches their description. For example, asking "help me design a database schema" activates the `database-expert` skill.
+
+### Creating Custom Skills
+
+Create `.agent/skills/my-skill/SKILL.md`:
+
+```markdown
+---
+name: my-skill
+description: Does X when user asks for Y.
+---
+
+# My Skill
+
+## Goal
+Accomplish X.
+
+## Instructions
+1. Step one
+2. Step two
+
+## Examples
+**User**: "Do X"
+**Action**: Execute steps.
+
+## Constraints
+- Do NOT skip steps
+```
+
+See [Skills Guide](docs/skills.md) for details.
+
+---
+
 ## Documentation
 
+- [Skills Guide](docs/skills.md) - Creating and using AI skills
 - [Workflows Guide](docs/workflows.md) - Detailed workflow documentation
 - [MCP Servers Guide](docs/mcp-servers.md) - MCP server setup and usage
 - [Configuration Reference](docs/configuration.md) - All configuration options
