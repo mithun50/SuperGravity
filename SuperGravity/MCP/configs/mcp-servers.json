@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "SuperGravity MCP Server Configurations for Google Antigravity",
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@context7/mcp"],
+      "description": "Framework documentation"
+    },
+    "sequential": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-sequential-thinking"],
+      "description": "Complex reasoning"
+    },
+    "magic": {
+      "command": "npx",
+      "args": ["-y", "@21st/magic-mcp"],
+      "env": {
+        "TWENTY_FIRST_API_KEY": "${TWENTY_FIRST_API_KEY}"
+      },
+      "description": "UI component generation"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-playwright"],
+      "description": "Browser automation"
+    },
+    "tavily": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-tavily"],
+      "env": {
+        "TAVILY_API_KEY": "${TAVILY_API_KEY}"
+      },
+      "description": "Web search"
+    },
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-firecrawl"],
+      "env": {
+        "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}"
+      },
+      "description": "Web scraping"
+    },
+    "supabase": {
+      "command": "npx",
+      "args": ["-y", "@supabase/mcp"],
+      "env": {
+        "SUPABASE_URL": "${SUPABASE_URL}",
+        "SUPABASE_ANON_KEY": "${SUPABASE_ANON_KEY}"
+      },
+      "description": "Database operations"
+    },
+    "pinecone": {
+      "command": "npx",
+      "args": ["-y", "@pinecone/mcp"],
+      "env": {
+        "PINECONE_API_KEY": "${PINECONE_API_KEY}"
+      },
+      "description": "Vector search"
+    }
+  }
+}

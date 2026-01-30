@@ -1,0 +1,33 @@
+{
+  "name": "supergravity",
+  "version": "1.0.0",
+  "description": "Transform Google Antigravity into a structured development platform",
+  "main": "index.js",
+  "bin": {
+    "supergravity": "./bin/supergravity.js"
+  },
+  "scripts": {
+    "install": "node bin/install.js",
+    "postinstall": "node bin/install.js"
+  },
+  "keywords": [
+    "antigravity",
+    "google",
+    "gemini",
+    "ai",
+    "development",
+    "framework",
+    "agents",
+    "mcp"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/user/SuperGravity.git"
+  },
+  "homepage": "https://github.com/user/SuperGravity#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
