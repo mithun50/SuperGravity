@@ -1,0 +1,9 @@
+{
+  "filesystem": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@anthropic/mcp-filesystem"
+    ]
+  }
+}

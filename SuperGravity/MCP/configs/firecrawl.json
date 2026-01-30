@@ -1,0 +1,12 @@
+{
+  "firecrawl": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@anthropic/mcp-firecrawl"
+    ],
+    "env": {
+      "FIRECRAWL_API_KEY": ""
+    }
+  }
+}

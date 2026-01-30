@@ -1,0 +1,9 @@
+{
+  "memory": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@anthropic/mcp-memory"
+    ]
+  }
+}

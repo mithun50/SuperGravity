@@ -1,0 +1,12 @@
+{
+  "postgres": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@anthropic/mcp-postgres"
+    ],
+    "env": {
+      "POSTGRES_URL": ""
+    }
+  }
+}

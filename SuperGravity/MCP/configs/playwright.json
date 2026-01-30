@@ -1,0 +1,9 @@
+{
+  "playwright": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@anthropic/mcp-playwright"
+    ]
+  }
+}
