@@ -224,6 +224,39 @@ class ConfigService:
 
         return {"success": True}
 
+    def add_server_config(self, server_name: str, config: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Add a server with a pre-built config
+
+        Args:
+            server_name: Name of the server
+            config: Server configuration dict
+
+        Returns:
+            Dict with success status
+        """
+        # Load or create config file
+        if self.config_path.exists():
+            with open(self.config_path) as f:
+                mcp_config = json.load(f)
+        else:
+            mcp_config = {"mcpServers": {}}
+
+        if "mcpServers" not in mcp_config:
+            mcp_config["mcpServers"] = {}
+
+        # Add or update server config
+        mcp_config["mcpServers"][server_name] = config
+
+        # Ensure directory exists
+        self.config_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Write config
+        with open(self.config_path, "w") as f:
+            json.dump(mcp_config, f, indent=2)
+
+        return {"success": True}
+
     def update_api_key(self, server_name: str, api_key: str) -> Dict[str, Any]:
         """
         Update API key for an installed MCP server
