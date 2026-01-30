@@ -19,10 +19,10 @@
 
 SuperGravity transforms Google Antigravity IDE into a structured development platform with:
 
-- **9 Workflows** - Slash commands for common tasks
-- **3 Rule Sets** - Code quality and security guidelines
-- **10 MCP Servers** - Tool integrations (validated packages)
-- **MCP Registry** - Robust tracking and management
+- **9 Global Workflows** - Slash commands for common tasks (`/scaffold`, `/deploy`, etc.)
+- **Workspace Support** - Initialize projects with `.agent/` structure
+- **Integrated Rules** - Code quality and security guidelines in GEMINI.md
+- **10 MCP Servers** - Validated tool integrations
 - **CLI Tool** - Easy installation and management
 
 ---
@@ -43,14 +43,6 @@ cd SuperGravity
 pip install -e .
 ```
 
-### Shell Script (Alternative)
-
-```bash
-git clone https://github.com/mithun50/SuperGravity.git
-cd SuperGravity
-./install.sh
-```
-
 ---
 
 ## Quick Start
@@ -59,28 +51,34 @@ cd SuperGravity
 # Install SuperGravity to Antigravity IDE
 supergravity install
 
-# Check what's installed
+# Initialize workspace with .agent/ structure
+supergravity init
+
+# Check installation status
 supergravity status
 
-# Add an MCP server
+# Add MCP servers
 supergravity mcp add context7
-
-# Update all MCP servers
-supergravity mcp update --all
+supergravity mcp add playwright
 ```
+
+Then restart Antigravity IDE and use `/scaffold`, `/deploy`, `/test`, etc.
 
 ---
 
-## CLI Reference
+## CLI Commands
 
 ### Core Commands
 
 | Command | Description |
 |---------|-------------|
 | `supergravity install` | Install SuperGravity to Antigravity IDE |
+| `supergravity install --force` | Force reinstall (overwrites files) |
 | `supergravity uninstall` | Remove SuperGravity |
 | `supergravity update` | Update workflows and rules |
 | `supergravity status` | Check installation status |
+| `supergravity init` | Initialize `.agent/` workspace structure |
+| `supergravity init --path ./myproject` | Initialize specific directory |
 
 ### MCP Commands
 
@@ -90,71 +88,108 @@ supergravity mcp update --all
 | `supergravity mcp list --installed` | List only installed servers |
 | `supergravity mcp add <server>` | Install and configure an MCP server |
 | `supergravity mcp add <server> -k KEY` | Install with API key |
-| `supergravity mcp add <server> --no-install` | Add to config only |
 | `supergravity mcp remove <server>` | Remove an MCP server |
-| `supergravity mcp update <server>` | Update a specific server |
 | `supergravity mcp update --all` | Update all installed servers |
 | `supergravity mcp verify` | Verify all servers work |
-| `supergravity mcp verify <server>` | Verify specific server |
 | `supergravity mcp prereq` | Check prerequisites (npm, docker) |
 | `supergravity mcp setup` | Interactive MCP setup |
 | `supergravity mcp sync` | Sync registry with config |
-| `supergravity mcp registry` | Show registry status |
 
 ---
 
 ## Workflows
 
-Type `/workflow-name` in Antigravity:
+Type `/workflow-name` in Antigravity chat:
 
 | Command | Description |
 |---------|-------------|
-| `/scaffold` | Generate project structures |
-| `/implement` | Implement features |
-| `/security` | Security audit |
-| `/test` | Generate tests |
-| `/deploy` | Deploy applications |
-| `/review` | Code review |
+| `/scaffold` | Generate project structures (Next.js, FastAPI, etc.) |
+| `/implement` | Implement features with patterns and validation |
+| `/security` | Security audit (OWASP Top 10) |
+| `/test` | Generate comprehensive test suites |
+| `/deploy` | Deploy applications safely |
+| `/review` | Code review with quality checks |
 | `/document` | Generate documentation |
-| `/refactor` | Safe refactoring |
-| `/debug` | Debug issues |
+| `/refactor` | Safe refactoring with tests |
+| `/debug` | Systematic debugging |
 
-### Examples
+### Workflow Examples
 
 ```
-/scaffold nextjs my-saas-app
-/implement user authentication with OAuth
-/security
-/test UserService --coverage
-/deploy staging
-/review src/api/
+/scaffold nextjs e-commerce app with auth
+/implement user authentication with JWT
+/security scan src/ for vulnerabilities
+/test generate tests for UserService
+/deploy to vercel production
+/review the changes in src/api/
 ```
+
+---
+
+## Workspace Initialization
+
+Initialize a project with Antigravity's `.agent/` structure:
+
+```bash
+cd your-project
+supergravity init
+```
+
+This creates:
+
+```
+your-project/
+└── .agent/
+    ├── rules/
+    │   └── workspace.md      # Project-specific rules
+    └── workflows/
+        ├── dev.md            # /dev - Start dev server
+        ├── build.md          # /build - Build project
+        └── pr.md             # /pr - Create pull request
+```
+
+### Custom Workspace Workflows
+
+Create `.agent/workflows/custom.md`:
+
+```markdown
+---
+description: My custom workflow
+---
+
+1. First step description.
+
+// turbo
+2. Run `npm run my-command`
+
+3. Final step.
+```
+
+Then use `/custom` in Antigravity.
 
 ---
 
 ## MCP Servers
 
-All MCP server packages have been validated and use correct npm/docker packages.
-
 ### No API Key Required
 
-| Server | Package | Purpose |
-|--------|---------|---------|
-| context7 | `@upstash/context7-mcp` | Framework documentation |
-| sequential-thinking | `@modelcontextprotocol/server-sequential-thinking` | Complex reasoning |
-| playwright | `@playwright/mcp` | Browser testing |
-| filesystem | `@modelcontextprotocol/server-filesystem` | File operations |
-| memory | `@modelcontextprotocol/server-memory` | Persistent memory |
+| Server | Purpose |
+|--------|---------|
+| `context7` | Framework documentation (React, Next.js, Vue, etc.) |
+| `sequential-thinking` | Complex multi-step reasoning |
+| `playwright` | Browser automation and E2E testing |
+| `filesystem` | File system operations |
+| `memory` | Persistent memory across sessions |
 
 ### API Key Required
 
-| Server | Package | Key Required |
-|--------|---------|--------------|
-| magic | `@21st-dev/magic` | `TWENTYFIRST_API_KEY` |
-| tavily | `tavily-mcp` | `TAVILY_API_KEY` |
-| firecrawl | `firecrawl-mcp` | `FIRECRAWL_API_KEY` |
-| github | `ghcr.io/github/github-mcp-server` | `GITHUB_PERSONAL_ACCESS_TOKEN` |
-| postgres | `@modelcontextprotocol/server-postgres` | `POSTGRES_URL` |
+| Server | Key Required | Get Key From |
+|--------|--------------|--------------|
+| `magic` | `TWENTYFIRST_API_KEY` | [21st.dev](https://21st.dev) |
+| `tavily` | `TAVILY_API_KEY` | [tavily.com](https://tavily.com) |
+| `firecrawl` | `FIRECRAWL_API_KEY` | [firecrawl.dev](https://firecrawl.dev) |
+| `github` | `GITHUB_PERSONAL_ACCESS_TOKEN` | [GitHub Settings](https://github.com/settings/tokens) |
+| `postgres` | Connection string | Your database |
 
 ### Installing MCP Servers
 
@@ -162,68 +197,54 @@ All MCP server packages have been validated and use correct npm/docker packages.
 # No API key required
 supergravity mcp add context7
 supergravity mcp add playwright
-supergravity mcp add memory
 
-# With API key
-supergravity mcp add tavily -k YOUR_TAVILY_API_KEY
+# With API key (interactive prompt)
+supergravity mcp add tavily
+
+# With API key (command line)
 supergravity mcp add magic -k YOUR_21ST_DEV_KEY
-
-# Interactive (prompts for key)
-supergravity mcp add github
 ```
-
-### MCP Registry
-
-SuperGravity uses a registry to track installed MCP servers:
-
-```bash
-# Check registry status
-supergravity mcp registry
-
-# Sync registry with config file
-supergravity mcp sync
-
-# Verify servers are working
-supergravity mcp verify
-```
-
-The registry tracks:
-- Installation timestamps
-- Configuration checksums (detects changes)
-- Verification status
-- Package versions
 
 ---
 
 ## Configuration Files
 
-### Location (macOS/Linux)
+### Global Configuration
+
 ```
 ~/.gemini/
-├── GEMINI.md                    # Global rules
+├── GEMINI.md                    # Global rules (includes SuperGravity rules)
 └── antigravity/
-    ├── mcp_config.json          # MCP server config
-    ├── mcp_registry.json        # MCP registry (auto-generated)
-    ├── global_workflows/        # Workflow definitions
-    │   ├── scaffold.md
-    │   ├── implement.md
-    │   └── ...
-    └── rules/                   # Rule files
+    ├── mcp_config.json          # MCP server configuration
+    ├── mcp_registry.json        # MCP tracking (auto-generated)
+    └── global_workflows/        # Global workflow definitions
+        ├── scaffold.md
+        ├── implement.md
+        ├── security.md
+        ├── test.md
+        ├── deploy.md
+        ├── review.md
+        ├── document.md
+        ├── refactor.md
+        └── debug.md
 ```
 
-### Location (Windows)
+### Workspace Configuration
+
 ```
-%USERPROFILE%\.gemini\
-└── antigravity\
-    ├── mcp_config.json
-    └── mcp_registry.json
+your-project/
+└── .agent/
+    ├── rules/                   # Workspace-specific rules
+    │   └── *.md
+    └── workflows/               # Workspace-specific workflows
+        └── *.md
 ```
 
 ---
 
 ## Core Rules
 
-SuperGravity enforces these rules:
+SuperGravity enforces these rules (added to GEMINI.md):
 
 1. **Read Before Write** - Understand code before modifying
 2. **Verify Before Execute** - Check commands first
@@ -231,49 +252,52 @@ SuperGravity enforces these rules:
 4. **Test After Change** - Run tests after modifications
 5. **Document Decisions** - Record technical decisions
 
+Plus code standards for:
+- Type safety (TypeScript, Python type hints)
+- Error handling
+- Security (OWASP guidelines)
+- Git safety
+
 ---
 
-## Customization
+## Troubleshooting
 
-### Add Custom Workflow
+### Check Installation
 
-Create `~/.gemini/antigravity/global_workflows/my-workflow.md`:
-
-```markdown
----
-name: my-workflow
-description: My custom workflow
----
-
-# My Custom Workflow
-
-Instructions for what the agent should do...
-```
-
-Then use with `/my-workflow`.
-
-### Add MCP Server Manually
-
-Edit `~/.gemini/antigravity/mcp_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "my-server": {
-      "command": "npx",
-      "args": ["-y", "@my/mcp-server"],
-      "env": {
-        "API_KEY": "your-key"
-      }
-    }
-  }
-}
-```
-
-Then sync the registry:
 ```bash
-supergravity mcp sync
+supergravity status
 ```
+
+### MCP Server Issues
+
+```bash
+# Check prerequisites
+supergravity mcp prereq
+
+# Verify servers
+supergravity mcp verify
+
+# Force reinstall a server
+supergravity mcp remove context7
+supergravity mcp add context7
+```
+
+### Missing Node.js
+
+MCP servers require Node.js 18+. Install from [nodejs.org](https://nodejs.org).
+
+### Missing Docker
+
+GitHub MCP requires Docker. Install from [docker.com](https://docker.com).
+
+---
+
+## Documentation
+
+- [Workflows Guide](docs/workflows.md) - Detailed workflow documentation
+- [MCP Servers Guide](docs/mcp-servers.md) - MCP server setup and usage
+- [Configuration Reference](docs/configuration.md) - All configuration options
+- [Customization Guide](docs/customization.md) - Creating custom workflows and rules
 
 ---
 
@@ -294,86 +318,6 @@ pytest
 black supergravity/
 isort supergravity/
 ```
-
-### Build for PyPI
-
-```bash
-pip install build twine
-python -m build
-twine upload dist/*
-```
-
----
-
-## Troubleshooting
-
-### MCP Server Issues
-
-```bash
-# Check prerequisites
-supergravity mcp prereq
-
-# Verify specific server
-supergravity mcp verify context7
-
-# Force reinstall
-supergravity mcp add context7 --force
-
-# Update to latest
-supergravity mcp update context7
-```
-
-### Registry Out of Sync
-
-```bash
-# Check sync status
-supergravity mcp sync
-
-# Repair registry from config
-supergravity mcp sync  # Then choose "Repair"
-```
-
-### Missing Node.js
-
-MCP servers require Node.js. Install from [nodejs.org](https://nodejs.org).
-
-### Missing Docker
-
-GitHub MCP requires Docker. Install from [docker.com](https://docker.com).
-
----
-
-## Architecture
-
-```
-supergravity/
-├── __init__.py           # Package info
-├── __main__.py           # CLI entry point
-└── setup/
-    ├── services/
-    │   ├── installer.py      # Core installation
-    │   ├── config.py         # Config management
-    │   ├── mcp_installer.py  # MCP package installation
-    │   └── mcp_registry.py   # MCP tracking registry
-    └── utils/
-        └── paths.py          # Cross-platform paths
-```
-
----
-
-## Sources
-
-MCP package information validated from:
-- [@upstash/context7-mcp](https://www.npmjs.com/package/@upstash/context7-mcp)
-- [@modelcontextprotocol/server-sequential-thinking](https://www.npmjs.com/package/@modelcontextprotocol/server-sequential-thinking)
-- [@21st-dev/magic](https://www.npmjs.com/package/@21st-dev/magic)
-- [@playwright/mcp](https://www.npmjs.com/package/@playwright/mcp)
-- [tavily-mcp](https://www.npmjs.com/package/tavily-mcp)
-- [firecrawl-mcp](https://www.npmjs.com/package/firecrawl-mcp)
-- [github/github-mcp-server](https://github.com/github/github-mcp-server)
-- [@modelcontextprotocol/server-postgres](https://www.npmjs.com/package/@modelcontextprotocol/server-postgres)
-- [@modelcontextprotocol/server-filesystem](https://www.npmjs.com/package/@modelcontextprotocol/server-filesystem)
-- [@modelcontextprotocol/server-memory](https://www.npmjs.com/package/@modelcontextprotocol/server-memory)
 
 ---
 

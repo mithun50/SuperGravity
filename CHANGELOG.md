@@ -2,6 +2,50 @@
 
 All notable changes to SuperGravity will be documented in this file.
 
+## [1.1.0] - 2026-01-30
+
+### Added
+
+#### Workspace Initialization
+- **`supergravity init`** - Initialize `.agent/` workspace structure
+- Creates `.agent/rules/` and `.agent/workflows/` directories
+- Generates sample workspace rules and workflows:
+  - `.agent/rules/workspace.md` - Project-specific rules
+  - `.agent/workflows/dev.md` - Start dev server
+  - `.agent/workflows/build.md` - Build project
+  - `.agent/workflows/pr.md` - Create pull request
+
+#### Documentation
+- **docs/workflows.md** - Complete workflow guide
+- **docs/mcp-servers.md** - MCP server setup and usage
+- **docs/configuration.md** - Configuration reference
+- **docs/customization.md** - Creating custom workflows and rules
+
+### Changed
+
+#### Workflow Format (Breaking)
+- Updated to Antigravity-compatible format
+- Changed frontmatter from `name:` + `description:` to `description:` only
+- Added numbered step format (1. 2. 3.)
+- Added `// turbo` annotations for auto-execution
+
+#### Rules Integration
+- Rules now integrated directly into GEMINI.md
+- Removed separate `rules/` directory (non-standard location)
+- Includes: Core rules, Code standards, Security rules, Git safety
+
+#### MCP Configuration
+- Cleaned `mcp_config.json` format
+- Removed `$schema` and `description` fields
+- Now uses standard Antigravity format: `command`, `args`, `env` only
+
+### Fixed
+- Workflow frontmatter format (removed `name:` field)
+- MCP config extra fields removed
+- Status command no longer references removed rules directory
+
+---
+
 ## [1.0.0] - 2026-01-30
 
 ### Added
@@ -9,7 +53,7 @@ All notable changes to SuperGravity will be documented in this file.
 #### Core Features
 - **SuperGravity Framework** - Complete framework for Google Antigravity IDE
 - **9 Workflows** - scaffold, implement, security, test, deploy, review, document, refactor, debug
-- **3 Rule Sets** - supergravity core rules, security guidelines, code quality standards
+- **Integrated Rules** - Code quality and security guidelines in GEMINI.md
 - **PyPI Package** - Install via `pip install supergravity`
 
 #### CLI Tool
@@ -43,10 +87,7 @@ All notable changes to SuperGravity will be documented in this file.
 
 #### Documentation
 - Comprehensive README with CLI reference
-- MCP server documentation in SuperGravity/MCP/
-- Agent profiles in SuperGravity/Agents/
-- Command references in SuperGravity/Commands/
-- Mode definitions in SuperGravity/Modes/
+- docs/ folder with detailed guides
 
 ### Technical Details
 - Python 3.8+ support

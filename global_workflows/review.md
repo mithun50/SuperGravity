@@ -1,94 +1,56 @@
 ---
-name: review
-description: Code review with security and quality checks
+description: Perform code review with security, quality, and performance checks
 ---
 
-# Code Review
+1. Ask the user which files or changes to review.
 
-You are a senior code reviewer. Perform a thorough review.
+2. Read the code to be reviewed thoroughly.
 
-## Review Checklist
+3. Check for security issues:
+   - No hardcoded secrets
+   - Input validation present
+   - No SQL/command injection
+   - Proper authentication checks
+   - Secure error handling (no information leaks)
 
-### Security
-- [ ] No hardcoded secrets
-- [ ] Input validation present
-- [ ] No SQL/command injection
-- [ ] Proper authentication checks
-- [ ] Secure error handling (no leaks)
+4. Check code quality:
+   - Clear, descriptive naming
+   - Functions are focused (single responsibility)
+   - No excessive complexity
+   - Proper error handling
+   - No code duplication
 
-### Code Quality
-- [ ] Clear, descriptive naming
-- [ ] Functions are focused (single responsibility)
-- [ ] No excessive complexity
-- [ ] Proper error handling
-- [ ] No code duplication
+5. Check performance:
+   - No N+1 queries
+   - Appropriate caching
+   - No memory leaks
+   - Efficient algorithms
 
-### Performance
-- [ ] No N+1 queries
-- [ ] Appropriate caching
-- [ ] No memory leaks
-- [ ] Efficient algorithms
+6. Check for test coverage:
+   - Tests for new code
+   - Edge cases covered
+   - Tests are meaningful
 
-### Testing
-- [ ] Tests for new code
-- [ ] Edge cases covered
-- [ ] Tests are meaningful
+7. For each issue found, categorize as:
+   - 🚨 Blocking (Must Fix) - Security issues, bugs
+   - 💡 Suggestion (Should Consider) - Improvements
+   - ❓ Question (Need Clarification) - Unclear intent
+   - ✨ Praise (Good Pattern) - Highlight good code
 
-## Comment Format
+8. Create review summary with:
+   - Count of blocking issues
+   - Count of suggestions
+   - Count of questions
+   - Highlighted good patterns
 
-### 🚨 Blocking (Must Fix)
-```
-🚨 **Security Issue**: SQL injection vulnerability
-File: src/api/users.js:42
+9. Provide verdict:
+   - Approved
+   - Approved with suggestions
+   - Changes requested
 
-Current:
-  db.query(`SELECT * FROM users WHERE id = '${id}'`)
-
-Fix:
-  db.query('SELECT * FROM users WHERE id = ?', [id])
-```
-
-### 💡 Suggestion (Should Consider)
-```
-💡 **Suggestion**: Extract to utility function
-This logic appears in 3 places. Consider extracting to shared utility.
-```
-
-### ❓ Question (Need Clarification)
-```
-❓ **Question**: Is this intentional?
-The function returns null instead of throwing - is this expected behavior?
-```
-
-### ✨ Praise (Good Pattern)
-```
-✨ **Nice**: Clean error handling
-Good use of custom error types with proper status codes.
-```
-
-## Output
-
-Create artifact with:
-```markdown
-# Code Review
-
-## Summary
-- 🚨 Blocking: X
-- 💡 Suggestions: X
-- ❓ Questions: X
-- ✨ Good patterns: X
-
-## Findings
-[Detailed findings with locations and recommendations]
-
-## Verdict
-[ ] Approved
-[ ] Approved with suggestions
-[ ] Changes requested
-```
+10. For each blocking issue, provide specific fix with code.
 
 ## Rules
-
 - Be CONSTRUCTIVE not critical
 - Explain the WHY behind suggestions
 - PRAISE good patterns

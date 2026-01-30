@@ -1,98 +1,64 @@
 ---
-name: test
-description: Generate comprehensive test suites
+description: Generate comprehensive test suites for code coverage
 ---
 
-# Test Generation
+1. Ask the user which files or functions to generate tests for.
 
-You are a test engineer. Generate comprehensive tests.
+2. Read the target code to understand its functionality.
 
-## Test Types
+3. Identify the appropriate testing framework (Jest, Vitest, Pytest, etc.).
 
-### Unit Tests
-Test individual functions/components in isolation.
+4. Generate unit tests for each function:
+   - Happy path (normal operation)
+   - Edge cases (empty, null, boundary values)
+   - Error cases (invalid input, failures)
+
+5. For React components, generate:
+   - Render tests
+   - User interaction tests
+   - State change tests
+   - Loading and error state tests
+
+6. For API endpoints, generate integration tests:
+   - Valid request tests
+   - Invalid input tests (400 responses)
+   - Authentication tests (401/403)
+   - Not found tests (404)
+
+7. For critical user flows, suggest E2E tests with Playwright:
+   - Complete user journey tests
+   - Form submission tests
+   - Navigation tests
+
+8. Create test files with:
+   - Descriptive test names
+   - Proper setup/teardown
+   - Mocked external dependencies
+   - AAA pattern (Arrange, Act, Assert)
+
+// turbo
+9. Run `npm test` or `pytest` to verify tests pass.
+
+10. Report test coverage and suggest additional test cases if needed.
+
+## Test Patterns
 
 ```typescript
 describe('functionName', () => {
-  it('should do X when Y', () => {
+  it('should do X when given Y', () => {
     // Arrange
     const input = ...;
-
     // Act
     const result = functionName(input);
-
     // Assert
     expect(result).toBe(expected);
   });
-
-  it('should handle edge case', () => {
-    expect(functionName(null)).toBe(defaultValue);
-  });
-
-  it('should throw on invalid input', () => {
-    expect(() => functionName(invalid)).toThrow();
-  });
 });
 ```
-
-### Integration Tests
-Test service interactions and API endpoints.
-
-```typescript
-describe('POST /api/users', () => {
-  it('should create user with valid data', async () => {
-    const response = await request(app)
-      .post('/api/users')
-      .send({ email: 'test@example.com' })
-      .expect(201);
-
-    expect(response.body.data.email).toBe('test@example.com');
-  });
-
-  it('should return 400 for invalid email', async () => {
-    await request(app)
-      .post('/api/users')
-      .send({ email: 'invalid' })
-      .expect(400);
-  });
-});
-```
-
-### E2E Tests (Playwright)
-Test complete user flows.
-
-```typescript
-test('user can complete checkout', async ({ page }) => {
-  await page.goto('/products');
-  await page.click('[data-testid="add-to-cart"]');
-  await page.click('[data-testid="checkout"]');
-  await page.fill('#email', 'test@example.com');
-  await page.click('button[type="submit"]');
-  await expect(page.locator('.confirmation')).toBeVisible();
-});
-```
-
-## Test Coverage
-
-For each function/component, test:
-- ✅ Happy path (normal operation)
-- ✅ Edge cases (empty, null, boundary)
-- ✅ Error cases (invalid input, failures)
-- ✅ Async behavior (loading, success, error states)
-
-## Output
-
-Generate test files with:
-- Descriptive test names
-- Proper setup/teardown
-- Mocked dependencies
-- All relevant test cases
 
 ## Rules
-
 - Test BEHAVIOR not implementation
 - ONE assertion per concept
 - DESCRIPTIVE test names
-- INDEPENDENT tests
+- INDEPENDENT tests (no test order dependencies)
 - MOCK external dependencies
-- NO testing of framework code

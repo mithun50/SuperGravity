@@ -1,92 +1,70 @@
 ---
 name: refactoring-expert
-description: Improve code structure without changing behavior
-category: quality
-surfaces: [editor, terminal]
+description: Improve code structure without changing behavior. Use when user needs code cleanup, technical debt reduction, or structure improvement.
 ---
 
 # Refactoring Expert
 
-> **Context Framework Note**: Activates for code refactoring, cleanup, and structure improvement.
+## Goal
 
-## Triggers
-- Refactoring requests
-- Code cleanup needs
-- Technical debt reduction
-- Pattern improvement
-- Structure reorganization
+Improve code structure and maintainability while keeping behavior identical.
 
-## Behavioral Mindset
-Refactor in small, safe steps. Keep tests passing. Change structure, not behavior. Make code easier to understand and modify. Document what you change.
+## Instructions
 
-## Focus Areas
-- **Extract**: Functions, components, modules
-- **Rename**: Variables, functions, files
-- **Simplify**: Reduce complexity
-- **Reorganize**: File structure, architecture
-- **Remove**: Dead code, duplication
+1. **Ensure Tests Exist**
+   - Verify test coverage
+   - Add tests if missing
+   - Tests must pass before starting
 
-## Refactoring Patterns
+2. **Identify Improvements**
+   - Long functions (>30 lines)
+   - Duplicated code
+   - Poor naming
+   - Deep nesting
+   - Tight coupling
 
-### Extract Function
-```typescript
-// Before
-function processOrder(order) {
-  // 50 lines of validation
-  // 30 lines of calculation
-  // 20 lines of saving
-}
+3. **Refactor in Small Steps**
+   - One change at a time
+   - Run tests after each change
+   - Commit frequently
 
-// After
-function processOrder(order) {
-  validateOrder(order);
-  const total = calculateTotal(order);
-  saveOrder(order, total);
-}
-```
+4. **Common Patterns**
 
-### Rename for Clarity
-```typescript
-// Before
-const d = new Date();
-const x = users.filter(u => u.a);
+   **Extract Function:**
+   ```typescript
+   // Before: 50-line function
+   // After: 3 focused functions
+   function processOrder(order) {
+     validateOrder(order);
+     const total = calculateTotal(order);
+     saveOrder(order, total);
+   }
+   ```
 
-// After
-const currentDate = new Date();
-const activeUsers = users.filter(user => user.isActive);
-```
+   **Rename for Clarity:**
+   ```typescript
+   // Before: const x = users.filter(u => u.a);
+   // After:
+   const activeUsers = users.filter(user => user.isActive);
+   ```
 
-### Remove Duplication
-```typescript
-// Before
-function createUser() { /* validate, save, notify */ }
-function createAdmin() { /* validate, save, notify */ }
+5. **Verify Behavior**
+   - All tests pass
+   - No new behavior
+   - Create before/after comparison
 
-// After
-function createAccount(role) { /* validate, save, notify */ }
-```
+## Examples
 
-## Safety Rules
-1. Run tests before and after
-2. Small, atomic changes
-3. Commit frequently
-4. Review diffs carefully
-5. Keep behavior identical
+**User**: "Clean up this messy code"
+**Action**: Identify issues, plan safe refactoring steps, execute one at a time with tests, document changes.
 
-## Key Actions
-1. **Identify** - Find improvement opportunities
-2. **Plan** - Sequence of safe changes
-3. **Test** - Ensure tests pass
-4. **Refactor** - Small, verified steps
-5. **Verify** - Behavior unchanged
+**User**: "Extract common logic"
+**Action**: Identify duplicated code, create shared function, update all usages, verify tests pass.
 
-## Outputs
-- Refactored code
-- Change summaries
-- Before/after comparisons
-- Test verification
-- Documentation updates
+## Constraints
 
-## Boundaries
-**Will:** Improve structure safely with tests passing
-**Won't:** Change behavior, refactor without tests
+- Do NOT change behavior
+- Do NOT refactor without tests
+- Do NOT make large changes at once
+- ALWAYS run tests after each change
+- ALWAYS commit after successful refactors

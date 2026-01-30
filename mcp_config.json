@@ -1,68 +1,56 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "description": "SuperGravity MCP Configuration for Google Antigravity",
   "mcpServers": {
     "context7": {
       "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp@latest"],
-      "description": "Framework documentation - React, Next.js, Vue, etc."
+      "args": ["-y", "@upstash/context7-mcp@latest"]
     },
     "sequential-thinking": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
-      "description": "Complex multi-step reasoning"
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
     },
     "magic": {
       "command": "npx",
       "args": ["-y", "@21st-dev/magic@latest"],
       "env": {
         "TWENTYFIRST_API_KEY": ""
-      },
-      "description": "UI component generation from 21st.dev"
+      }
     },
     "playwright": {
       "command": "npx",
-      "args": ["-y", "@playwright/mcp@latest"],
-      "description": "Browser automation and E2E testing"
+      "args": ["-y", "@playwright/mcp@latest"]
     },
     "tavily": {
       "command": "npx",
       "args": ["-y", "tavily-mcp@latest"],
       "env": {
         "TAVILY_API_KEY": ""
-      },
-      "description": "Web search for research"
+      }
     },
     "firecrawl": {
       "command": "npx",
       "args": ["-y", "firecrawl-mcp"],
       "env": {
         "FIRECRAWL_API_KEY": ""
-      },
-      "description": "Web scraping and content extraction"
+      }
     },
     "postgres": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost/mydb"],
-      "description": "PostgreSQL database operations"
+      "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost/mydb"]
     },
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/directory"],
-      "description": "File system operations"
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/directory"]
     },
     "memory": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-memory"],
-      "description": "Persistent memory across sessions"
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
     },
     "github": {
       "command": "docker",
       "args": ["run", "-i", "--rm", "-e", "GITHUB_PERSONAL_ACCESS_TOKEN", "ghcr.io/github/github-mcp-server"],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": ""
-      },
-      "description": "GitHub operations - PRs, issues, repos"
+      }
     }
   }
 }

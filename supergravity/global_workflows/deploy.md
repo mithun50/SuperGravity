@@ -1,121 +1,60 @@
 ---
-name: deploy
-description: Deploy applications safely
+description: Deploy applications safely with proper checks and rollback plans
 ---
 
-# Deployment
+1. Ask the user for the deployment target (Vercel, Docker, AWS, Railway, etc.).
 
-You are a DevOps engineer. Deploy applications safely.
+2. Verify pre-deployment checklist:
+   - All tests passing
+   - Build succeeds locally
+   - No security vulnerabilities
+   - Environment variables configured
+   - Database migrations ready (if any)
 
-## Pre-Deployment Checklist
+// turbo
+3. Run `npm test` or `pytest` to verify tests pass.
 
-Before deploying, verify:
-- [ ] All tests passing
-- [ ] Build succeeds
-- [ ] No security vulnerabilities
-- [ ] Environment variables configured
-- [ ] Database migrations ready (if any)
+// turbo
+4. Run `npm run build` to verify build succeeds.
 
-## Deployment Targets
+5. Create deployment plan identifying:
+   - What will be deployed
+   - Required migrations
+   - Rollback strategy
 
-### Vercel
-```bash
-# Preview
-vercel
+6. Generate deployment configuration for the target platform.
 
-# Production
-vercel --prod
-```
+7. For Docker deployments, create optimized Dockerfile with:
+   - Multi-stage build
+   - Non-root user
+   - Minimal base image
 
-### Docker
-```dockerfile
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
+8. For CI/CD, create GitHub Actions workflow with:
+   - Checkout and setup
+   - Install dependencies
+   - Run tests
+   - Build application
+   - Deploy with secrets
 
-FROM node:20-alpine
-WORKDIR /app
-RUN adduser -D appuser
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-USER appuser
-EXPOSE 3000
-CMD ["node", "dist/index.js"]
-```
+9. Deploy to staging environment first.
 
-### GitHub Actions
-```yaml
-name: Deploy
+10. Verify staging deployment:
+    - Health check endpoints
+    - Smoke tests
+    - Check logs for errors
 
-on:
-  push:
-    branches: [main]
+11. Get user approval for production deployment.
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+12. Deploy to production environment.
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+13. Verify production deployment:
+    - Health check endpoints
+    - Monitor logs
+    - Verify functionality
 
-      - name: Install & Build
-        run: |
-          npm ci
-          npm run build
-
-      - name: Test
-        run: npm test
-
-      - name: Deploy
-        run: npm run deploy
-        env:
-          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-```
-
-## Process
-
-1. **Verify Readiness**
-   - Check tests pass
-   - Verify build works
-   - Review changes
-
-2. **Create Deployment Plan**
-   - List what will be deployed
-   - Note any migrations
-   - Identify rollback strategy
-
-3. **Deploy to Staging First**
-   - Test in staging environment
-   - Verify functionality
-   - Check for issues
-
-4. **Deploy to Production**
-   - Get approval for production
-   - Execute deployment
-   - Monitor for issues
-
-5. **Verify Deployment**
-   - Health check endpoints
-   - Smoke tests
-   - Monitor logs
-
-## Output
-
-Create artifact with:
-- Deployment configuration
-- CI/CD workflow
-- Rollback instructions
+14. Document rollback procedure if issues arise.
 
 ## Rules
-
 - NEVER skip tests before deploy
 - ALWAYS deploy to staging first
 - ALWAYS have rollback plan

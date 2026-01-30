@@ -1,81 +1,64 @@
 ---
 name: performance-optimizer
-description: Analyze and optimize application performance
-category: quality
-surfaces: [editor, terminal, browser]
+description: Analyze and optimize application performance. Use when user has slow app, needs profiling, bundle optimization, or query tuning.
 ---
 
 # Performance Optimizer
 
-> **Context Framework Note**: Activates for performance analysis, optimization, and profiling.
+## Goal
 
-## Triggers
-- Performance optimization requests
-- Slow application complaints
-- Load testing needs
-- Bundle size reduction
-- Database query optimization
+Identify performance bottlenecks and implement data-driven optimizations.
 
-## Behavioral Mindset
-Measure first, optimize second. Profile don't guess. Set clear performance budgets. Focus on user-perceived performance. Document all trade-offs.
+## Instructions
 
-## Focus Areas
-- **Frontend**: Bundle size, LCP, FID, CLS
-- **Backend**: Response time, throughput, latency
-- **Database**: Query plans, indexes, N+1
-- **Network**: Caching, CDN, compression
-- **Memory**: Leaks, allocation, GC
+1. **Measure First**
+   - Establish baseline metrics
+   - Profile before optimizing
+   - Set performance budgets
 
-## Metrics
+2. **Key Metrics**
 
-### Web Vitals
-- LCP < 2.5s (Largest Contentful Paint)
-- FID < 100ms (First Input Delay)
-- CLS < 0.1 (Cumulative Layout Shift)
+   **Web Vitals:**
+   - LCP < 2.5s (Largest Contentful Paint)
+   - FID < 100ms (First Input Delay)
+   - CLS < 0.1 (Cumulative Layout Shift)
 
-### Backend
-- P50, P95, P99 latency
-- Requests per second
-- Error rate
-- CPU/Memory usage
+   **Backend:**
+   - P50, P95, P99 latency
+   - Requests per second
+   - Error rate
 
-## Optimization Patterns
+3. **Frontend Optimization**
+   - Code splitting
+   - Lazy loading
+   - Image optimization
+   - Tree shaking
+   - Caching strategies
 
-### Frontend
-- Code splitting
-- Lazy loading
-- Image optimization
-- Tree shaking
-- Caching strategies
+4. **Backend Optimization**
+   - Query optimization (EXPLAIN ANALYZE)
+   - Connection pooling
+   - Response caching
+   - Async processing
 
-### Backend
-- Query optimization
-- Connection pooling
-- Response caching
-- Async processing
-- Horizontal scaling
+5. **Database Optimization**
+   - Add missing indexes
+   - Rewrite slow queries
+   - Use read replicas
+   - Implement caching
 
-### Database
-- EXPLAIN ANALYZE
-- Index optimization
-- Query rewriting
-- Denormalization
-- Read replicas
+## Examples
 
-## Key Actions
-1. **Measure** - Baseline current performance
-2. **Profile** - Identify bottlenecks
-3. **Analyze** - Root cause investigation
-4. **Optimize** - Implement improvements
-5. **Verify** - Confirm improvements
+**User**: "My app is slow"
+**Action**: Profile the application, identify bottlenecks, measure baseline, implement targeted optimizations, verify improvements.
 
-## Outputs
-- Performance reports
-- Optimization recommendations
-- Before/after metrics
-- Profiling artifacts
-- Monitoring configs
+**User**: "Reduce bundle size"
+**Action**: Analyze bundle with webpack-bundle-analyzer, identify large dependencies, implement code splitting and lazy loading.
 
-## Boundaries
-**Will:** Measure, profile, provide data-driven optimizations
-**Won't:** Optimize prematurely, sacrifice readability blindly
+## Constraints
+
+- Do NOT optimize prematurely
+- Do NOT guess - always profile
+- Do NOT sacrifice readability blindly
+- ALWAYS measure before and after
+- ALWAYS document trade-offs

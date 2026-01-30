@@ -27,9 +27,9 @@ def get_workflows_dir() -> Path:
     return get_antigravity_dir() / "global_workflows"
 
 
-def get_rules_dir() -> Path:
-    """Get the rules directory path"""
-    return get_antigravity_dir() / "rules"
+def get_skills_dir() -> Path:
+    """Get the global skills directory path"""
+    return get_antigravity_dir() / "skills"
 
 
 def get_mcp_config_path() -> Path:
@@ -43,7 +43,7 @@ def ensure_dirs():
         get_gemini_dir(),
         get_antigravity_dir(),
         get_workflows_dir(),
-        get_rules_dir(),
+        get_skills_dir(),
     ]
 
     for d in dirs:

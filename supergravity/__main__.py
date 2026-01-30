@@ -23,7 +23,7 @@ from supergravity import __version__
 from supergravity.setup.services.installer import InstallerService
 from supergravity.setup.services.config import ConfigService
 from supergravity.setup.services.mcp_installer import MCPInstallerService
-from supergravity.setup.utils.paths import get_gemini_dir, get_antigravity_dir, get_mcp_config_path
+from supergravity.setup.utils.paths import get_gemini_dir, get_antigravity_dir, get_skills_dir, get_mcp_config_path
 
 console = Console()
 
@@ -235,13 +235,13 @@ def status():
     else:
         table.add_row("Workflows", "[red]Not found[/red]", str(workflows_dir))
 
-    # Check rules
-    rules_dir = antigravity_dir / "rules"
-    if rules_dir.exists():
-        count = len(list(rules_dir.glob("*.md")))
-        table.add_row("Rules", f"[green]{count} installed[/green]", str(rules_dir))
+    # Check skills
+    skills_dir = get_skills_dir()
+    if skills_dir.exists():
+        count = len([d for d in skills_dir.iterdir() if d.is_dir() and (d / "SKILL.md").exists()])
+        table.add_row("Skills", f"[green]{count} installed[/green]", str(skills_dir))
     else:
-        table.add_row("Rules", "[red]Not found[/red]", str(rules_dir))
+        table.add_row("Skills", "[red]Not found[/red]", str(skills_dir))
 
     # Check MCP config
     mcp_config = antigravity_dir / "mcp_config.json"
@@ -265,6 +265,152 @@ def status():
     console.print(f"  Docker:  {'[green]✓[/green]' if prereqs['docker'] else '[yellow]○[/yellow] (optional)'}")
     if prereqs["node_version"]:
         console.print(f"  Node.js: {prereqs['node_version']}")
+
+
+@main.command()
+@click.option("--path", "-p", type=click.Path(), default=".", help="Workspace path (default: current directory)")
+@click.option("--rules/--no-rules", default=True, help="Include sample workspace rules")
+@click.option("--workflows/--no-workflows", default=True, help="Include sample workspace workflows")
+def init(path: str, rules: bool, workflows: bool):
+    """Initialize .agent/ workspace structure for Antigravity IDE
+
+    Creates the workspace-level configuration structure:
+    - .agent/rules/      - Workspace-specific rules
+    - .agent/workflows/  - Workspace-specific workflows
+    """
+    workspace = Path(path).resolve()
+    agent_dir = workspace / ".agent"
+
+    console.print(Panel.fit(
+        "[bold blue]Workspace Initialization[/bold blue]\n"
+        f"Path: {workspace}",
+        border_style="blue"
+    ))
+
+    try:
+        # Create .agent directory structure
+        (agent_dir / "rules").mkdir(parents=True, exist_ok=True)
+        (agent_dir / "workflows").mkdir(parents=True, exist_ok=True)
+
+        created_files = []
+
+        # Create sample workspace rules
+        if rules:
+            rules_file = agent_dir / "rules" / "workspace.md"
+            if not rules_file.exists():
+                rules_file.write_text('''# Workspace Rules
+
+> Project-specific rules for this workspace.
+
+## Project Context
+
+- This is a [describe your project]
+- Main technologies: [list technologies]
+- Follow existing patterns in the codebase
+
+## Code Style
+
+- Follow the established patterns in this codebase
+- Use consistent naming conventions
+- Add tests for new features
+
+## Important Files
+
+- `src/` - Main source code
+- `tests/` - Test files
+- Add your key files here
+''')
+                created_files.append(str(rules_file.relative_to(workspace)))
+
+        # Create sample workspace workflows
+        if workflows:
+            # Development workflow
+            dev_workflow = agent_dir / "workflows" / "dev.md"
+            if not dev_workflow.exists():
+                dev_workflow.write_text('''---
+description: Start development server and watch for changes
+---
+
+// turbo-all
+
+1. Install dependencies if node_modules is missing.
+   Run `npm install` or `yarn` or `pnpm install`
+
+2. Start the development server.
+   Run `npm run dev` or `yarn dev` or `pnpm dev`
+''')
+                created_files.append(str(dev_workflow.relative_to(workspace)))
+
+            # Build workflow
+            build_workflow = agent_dir / "workflows" / "build.md"
+            if not build_workflow.exists():
+                build_workflow.write_text('''---
+description: Build the project for production
+---
+
+1. Run linting checks.
+// turbo
+   Run `npm run lint`
+
+2. Run type checking.
+// turbo
+   Run `npm run typecheck` or `npx tsc --noEmit`
+
+3. Run tests.
+// turbo
+   Run `npm test`
+
+4. Build for production.
+// turbo
+   Run `npm run build`
+''')
+                created_files.append(str(build_workflow.relative_to(workspace)))
+
+            # PR workflow
+            pr_workflow = agent_dir / "workflows" / "pr.md"
+            if not pr_workflow.exists():
+                pr_workflow.write_text('''---
+description: Prepare and create a pull request
+---
+
+1. Ask for the PR title and description.
+
+2. Check for uncommitted changes.
+   Run `git status`
+
+3. Stage all changes.
+// turbo
+   Run `git add -A`
+
+4. Create a commit with the changes.
+   Run `git commit -m "[commit message]"`
+
+5. Push to the remote branch.
+// turbo
+   Run `git push -u origin HEAD`
+
+6. Create the pull request.
+   Run `gh pr create --title "[title]" --body "[description]"`
+''')
+                created_files.append(str(pr_workflow.relative_to(workspace)))
+
+        # Success output
+        console.print("\n[bold green]Workspace initialized![/bold green]")
+        console.print(f"\nCreated: [cyan]{agent_dir.relative_to(workspace)}/[/cyan]")
+        console.print("  ├── rules/      - Workspace-specific rules")
+        console.print("  └── workflows/  - Workspace-specific workflows")
+
+        if created_files:
+            console.print("\n[dim]Created files:[/dim]")
+            for f in created_files:
+                console.print(f"  - {f}")
+
+        console.print("\n[yellow]Tip:[/yellow] Edit files in .agent/ to customize for your project.")
+        console.print("[yellow]Tip:[/yellow] Use /dev, /build, /pr in Antigravity to trigger workflows.")
+
+    except Exception as e:
+        console.print(f"\n[bold red]Error:[/bold red] {e}")
+        sys.exit(1)
 
 
 @main.group()

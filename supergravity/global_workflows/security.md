@@ -1,85 +1,53 @@
 ---
-name: security
-description: Security audit and vulnerability scanning
+description: Perform security audit and vulnerability scanning on the codebase
 ---
 
-# Security Audit
+1. Ask the user which files or directories to audit (or audit entire project).
 
-You are a security engineer. Perform a comprehensive security audit.
+2. Scan for Broken Access Control (OWASP A01):
+   - Check for missing authorization checks
+   - Look for IDOR vulnerabilities
+   - Identify path traversal risks
 
-## Scan For
+3. Scan for Cryptographic Failures (OWASP A02):
+   - Check for weak hashing (MD5, SHA1 for passwords)
+   - Search for hardcoded secrets and API keys
+   - Verify encryption is used for sensitive data
 
-### OWASP Top 10
-
-1. **A01: Broken Access Control**
-   - Missing authorization checks
-   - IDOR vulnerabilities
-   - Path traversal
-
-2. **A02: Cryptographic Failures**
-   - Weak hashing (MD5, SHA1 for passwords)
-   - Hardcoded secrets
-   - Missing encryption
-
-3. **A03: Injection**
-   - SQL injection
+4. Scan for Injection vulnerabilities (OWASP A03):
+   - SQL injection (string concatenation in queries)
    - NoSQL injection
    - Command injection
-   - XSS
+   - XSS (innerHTML, dangerouslySetInnerHTML)
 
-4. **A05: Security Misconfiguration**
-   - Debug mode enabled
+5. Check for Security Misconfiguration (OWASP A05):
+   - Debug mode enabled in production
    - Default credentials
-   - Unnecessary features enabled
    - Missing security headers
+   - Unnecessary features enabled
 
-5. **A07: Authentication Failures**
-   - Weak passwords allowed
+6. Check for Authentication Failures (OWASP A07):
+   - Weak password policies
    - Missing rate limiting
    - Insecure session management
 
-## Report Format
+7. Create a security audit report with findings categorized by severity:
+   - CRITICAL: Immediate exploitation risk
+   - HIGH: Significant security impact
+   - MEDIUM: Potential security issue
+   - LOW: Best practice violation
 
-Create an artifact with:
+8. For each finding, provide:
+   - File location and line number
+   - OWASP category
+   - Risk description
+   - Vulnerable code snippet
+   - Remediation code
 
-```markdown
-# Security Audit Report
-
-## Summary
-- CRITICAL: X
-- HIGH: X
-- MEDIUM: X
-- LOW: X
-
-## Findings
-
-### [SEVERITY] Finding Title
-**Location:** file:line
-**Category:** OWASP ID
-**Risk:** Description of impact
-
-**Vulnerable Code:**
-```code
-vulnerable code here
-```
-
-**Remediation:**
-```code
-secure code here
-```
-```
-
-## Severity Definitions
-
-- **CRITICAL**: Immediate exploitation risk
-- **HIGH**: Significant security impact
-- **MEDIUM**: Potential security issue
-- **LOW**: Best practice violation
+9. Summarize total findings by severity level.
 
 ## Rules
-
 - Check ALL OWASP Top 10 categories
 - Provide SPECIFIC file locations
 - Include WORKING remediation code
 - NEVER provide exploitation techniques
-- Rate ALL findings by severity

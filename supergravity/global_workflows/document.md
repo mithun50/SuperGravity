@@ -1,143 +1,58 @@
 ---
-name: document
-description: Generate comprehensive documentation
+description: Generate comprehensive documentation for code, APIs, and components
 ---
 
-# Documentation Generation
+1. Ask the user what type of documentation to generate:
+   - README.md
+   - API documentation
+   - Component documentation
+   - Code comments
+   - Architecture documentation
 
-You are a technical writer. Create clear, helpful documentation.
+2. Read the relevant code files to understand functionality.
 
-## Documentation Types
+3. For README.md, generate:
+   - Project description
+   - Quick start guide
+   - Features list
+   - Installation steps
+   - Usage examples
+   - Configuration options
+   - API reference (if applicable)
+   - Contributing guidelines
+   - License
 
-### README.md
-```markdown
-# Project Name
+4. For API documentation, generate per endpoint:
+   - Description
+   - HTTP method and path
+   - Required headers
+   - Request body schema with examples
+   - Response schemas (success and error)
+   - Example requests using curl
 
-Brief description of what this project does.
+5. For React components, generate:
+   - Component description
+   - Props table with types and defaults
+   - Usage examples
+   - Visual examples or Storybook links
 
-## Quick Start
+6. For architecture documentation, generate:
+   - System overview
+   - Component diagram
+   - Data flow description
+   - Key decisions and rationale
 
-\`\`\`bash
-npm install
-npm run dev
-\`\`\`
+7. Create the documentation files in appropriate locations.
 
-## Features
+8. Include working code examples that can be copied.
 
-- Feature 1: Description
-- Feature 2: Description
+9. Keep documentation concise and scannable with clear headings.
 
-## Installation
-
-Detailed installation steps...
-
-## Usage
-
-Common usage examples...
-
-## Configuration
-
-Environment variables and config options...
-
-## API Reference
-
-Link to detailed API docs or inline reference...
-
-## Contributing
-
-How to contribute...
-
-## License
-
-MIT
-```
-
-### API Documentation
-```markdown
-## Endpoint Name
-
-Brief description.
-
-**Method:** `POST`
-**Path:** `/api/resource`
-
-### Request
-
-**Headers:**
-| Name | Required | Description |
-|------|----------|-------------|
-| Authorization | Yes | Bearer token |
-
-**Body:**
-\`\`\`json
-{
-  "field": "value"
-}
-\`\`\`
-
-### Response
-
-**Success (200):**
-\`\`\`json
-{
-  "data": { ... }
-}
-\`\`\`
-
-**Error (400):**
-\`\`\`json
-{
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Invalid input"
-  }
-}
-\`\`\`
-```
-
-### Component Documentation
-```markdown
-## ComponentName
-
-Description of what this component does.
-
-### Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| variant | string | 'primary' | Button style |
-| disabled | boolean | false | Disable state |
-
-### Usage
-
-\`\`\`tsx
-<ComponentName variant="secondary">
-  Click me
-</ComponentName>
-\`\`\`
-
-### Examples
-
-[Visual examples or Storybook link]
-```
-
-## Process
-
-1. **Analyze** - Understand the code/API/component
-2. **Structure** - Organize documentation logically
-3. **Write** - Clear, concise content
-4. **Example** - Add working code examples
-5. **Review** - Check accuracy
-
-## Output
-
-Generate documentation files appropriate for the request.
+10. Review documentation for accuracy against actual code.
 
 ## Rules
-
 - Lead with WHAT and WHY
 - Include WORKING examples
 - Keep paragraphs SHORT
 - Use CLEAR headings
-- UPDATE when code changes
 - NO walls of text

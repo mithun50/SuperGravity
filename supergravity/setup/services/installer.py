@@ -10,7 +10,7 @@ from supergravity.setup.utils.paths import (
     get_gemini_dir,
     get_antigravity_dir,
     get_workflows_dir,
-    get_rules_dir,
+    get_skills_dir,
     get_mcp_config_path,
     ensure_dirs,
 )
@@ -24,7 +24,7 @@ class InstallerService:
     def __init__(self):
         self.package_dir = PACKAGE_DIR
         self.source_workflows = self.package_dir.parent / "global_workflows"
-        self.source_rules = self.package_dir.parent / "rules"
+        self.source_agents = self.package_dir.parent / "SuperGravity" / "Agents"
         self.source_mcp_config = self.package_dir.parent / "mcp_config.json"
 
     def install(
@@ -46,14 +46,14 @@ class InstallerService:
             # Ensure directories exist
             ensure_dirs()
 
-            # Install GEMINI.md section
+            # Install GEMINI.md with all rules
             self._install_gemini_md(force)
 
             # Install workflows
             self._install_workflows(force)
 
-            # Install rules
-            self._install_rules(force)
+            # Install skills (agents)
+            self._install_skills(force)
 
             # Install MCP configuration
             self._install_mcp_config(mcp_servers, force)
@@ -70,7 +70,7 @@ class InstallerService:
             }
 
     def _install_gemini_md(self, force: bool = False):
-        """Install or update GEMINI.md"""
+        """Install or update GEMINI.md with all rules"""
         gemini_md = get_gemini_dir() / "GEMINI.md"
 
         supergravity_section = '''
@@ -100,12 +100,72 @@ class InstallerService:
 
 ## Code Standards
 
-- TypeScript for JS projects
-- Handle all errors with try/catch
-- Validate all inputs
-- Never hardcode secrets
-- Write tests for new code
-- Follow OWASP guidelines
+### Type Safety
+- Use TypeScript for JavaScript projects
+- Use type hints for Python
+- Avoid `any` types
+- Define interfaces for data structures
+
+### Error Handling
+- Wrap external calls in try/catch
+- Provide meaningful error messages
+- Never swallow exceptions silently
+
+### Naming Conventions
+- Functions: verb + noun (e.g., `getUserById`, `calculateTotal`)
+- Variables: descriptive names
+- Constants: SCREAMING_SNAKE_CASE
+- Booleans: is/has/should prefix
+
+### Functions
+- Single responsibility
+- Max 20-30 lines preferred
+- Limited parameters (max 3-4)
+
+## Security Rules
+
+### Input Validation
+- Validate all user inputs
+- Sanitize data before use
+- Use allowlists over denylists
+- Check types and bounds
+
+### Authentication
+- Use secure session management
+- Implement proper password hashing (bcrypt)
+- Add rate limiting to auth endpoints
+- Use HTTPS only
+
+### Secrets Management
+- Use environment variables
+- Never commit secrets to git
+- Rotate credentials regularly
+- Use secret managers in production
+
+### Injection Prevention
+- Use parameterized queries (never string interpolation)
+- Sanitize HTML output (use textContent over innerHTML)
+- Escape special characters
+
+### OWASP Top 10 Awareness
+1. Broken Access Control
+2. Cryptographic Failures
+3. Injection
+4. Insecure Design
+5. Security Misconfiguration
+6. Vulnerable Components
+7. Authentication Failures
+8. Data Integrity Failures
+9. Logging Failures
+10. SSRF
+
+## Git Safety
+
+- Meaningful commit messages
+- One logical change per commit
+- Never commit secrets
+- Never force push to main/master
+- Create feature branches
 '''
 
         if gemini_md.exists():
@@ -155,21 +215,28 @@ class InstallerService:
 
             shutil.copy2(workflow, target)
 
-    def _install_rules(self, force: bool = False):
-        """Install rule files"""
-        target_dir = get_rules_dir()
+    def _install_skills(self, force: bool = False):
+        """Install agent skills"""
+        target_dir = get_skills_dir()
         target_dir.mkdir(parents=True, exist_ok=True)
 
-        if not self.source_rules.exists():
+        if not self.source_agents.exists():
             return
 
-        for rule in self.source_rules.glob("*.md"):
-            target = target_dir / rule.name
+        for agent_file in self.source_agents.glob("*.md"):
+            # Create skill directory named after the agent
+            skill_name = agent_file.stem  # e.g., "fullstack-architect"
+            skill_dir = target_dir / skill_name
+            skill_dir.mkdir(parents=True, exist_ok=True)
 
-            if target.exists() and not force:
+            # Create SKILL.md in the skill directory
+            skill_md = skill_dir / "SKILL.md"
+
+            if skill_md.exists() and not force:
                 continue
 
-            shutil.copy2(rule, target)
+            # Copy agent content as SKILL.md
+            shutil.copy2(agent_file, skill_md)
 
     def _install_mcp_config(
         self,
@@ -250,11 +317,18 @@ class InstallerService:
                 for f in workflows_dir.glob("*.md"):
                     f.unlink()
 
-            # Remove rules
-            rules_dir = get_rules_dir()
-            if rules_dir.exists():
-                for f in rules_dir.glob("*.md"):
-                    f.unlink()
+            # Remove skills
+            skills_dir = get_skills_dir()
+            if skills_dir.exists():
+                for skill_dir in skills_dir.iterdir():
+                    if skill_dir.is_dir():
+                        skill_md = skill_dir / "SKILL.md"
+                        if skill_md.exists():
+                            skill_md.unlink()
+                        try:
+                            skill_dir.rmdir()
+                        except OSError:
+                            pass  # Directory not empty
 
             # Optionally remove MCP config
             if not keep_config:

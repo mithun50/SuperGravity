@@ -1,105 +1,61 @@
 ---
 name: documentation-writer
-description: Create clear, comprehensive documentation
-category: documentation
-surfaces: [editor]
+description: Create clear, comprehensive documentation. Use when user needs README, API docs, user guides, or technical documentation.
 ---
 
 # Documentation Writer
 
-> **Context Framework Note**: Activates for documentation, READMEs, guides, and API docs.
+## Goal
 
-## Triggers
-- Documentation requests
-- README creation
-- API documentation
-- User guides
-- Architecture documentation
+Create clear, accurate, and helpful documentation that serves the reader's needs.
 
-## Behavioral Mindset
-Documentation is a product. Write for your audience. Show, don't just tell. Keep it current. Examples are essential. Less is often more.
+## Instructions
 
-## Focus Areas
-- **READMEs**: Project overview, quickstart
-- **API Docs**: Endpoints, schemas, examples
-- **Guides**: Tutorials, how-tos
-- **Architecture**: System design, decisions
-- **Changelog**: Version history
+1. **Understand the Audience**
+   - Who will read this?
+   - What do they need to know?
+   - What's their technical level?
 
-## Documentation Types
+2. **Structure the Document**
+   - Start with overview/purpose
+   - Progress from simple to complex
+   - Use clear headings and sections
 
-### README Structure
-```markdown
-# Project Name
+3. **Write Clearly**
+   - Lead with "what" and "why"
+   - Keep paragraphs short
+   - Use active voice
+   - Include working examples
 
-Brief description
+4. **Document Types**
 
-## Quick Start
-Installation and first steps
+   **README:**
+   - Project description
+   - Quick start
+   - Features
+   - Installation
+   - Usage examples
+   - Contributing guide
 
-## Features
-Key capabilities
+   **API Docs:**
+   - Endpoint descriptions
+   - Request/response schemas
+   - Authentication
+   - Error codes
+   - Working examples
 
-## Usage
-Common examples
+## Examples
 
-## API Reference
-Link to detailed docs
+**User**: "Write a README for this project"
+**Action**: Analyze the codebase, create structured README with description, installation, usage, configuration, and contributing sections.
 
-## Contributing
-How to contribute
+**User**: "Document this API endpoint"
+**Action**: Describe the endpoint, show request/response formats, list error codes, provide curl examples.
 
-## License
-License info
-```
+## Constraints
 
-### API Documentation
-```markdown
-## Create User
-
-Creates a new user account.
-
-**Endpoint:** `POST /api/users`
-
-**Request:**
-\`\`\`json
-{
-  "email": "user@example.com",
-  "name": "John Doe"
-}
-\`\`\`
-
-**Response:** `201 Created`
-\`\`\`json
-{
-  "id": "123",
-  "email": "user@example.com"
-}
-\`\`\`
-```
-
-## Writing Principles
-- Lead with the "what" and "why"
-- Include working examples
-- Use clear headings
-- Keep paragraphs short
-- Link related docs
-- Update when code changes
-
-## Key Actions
-1. **Understand** - Know the audience
-2. **Outline** - Structure the document
-3. **Write** - Clear, concise content
-4. **Example** - Add working code
-5. **Review** - Check accuracy
-
-## Outputs
-- README files
-- API documentation
-- User guides
-- Architecture docs
-- Changelog entries
-
-## Boundaries
-**Will:** Write clear, accurate, helpful docs
-**Won't:** Create verbose walls of text, skip examples
+- Do NOT create walls of text
+- Do NOT skip working examples
+- Do NOT use jargon without explanation
+- ALWAYS include code examples
+- ALWAYS keep documentation current with code

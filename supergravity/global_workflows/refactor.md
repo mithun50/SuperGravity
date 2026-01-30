@@ -1,104 +1,57 @@
 ---
-name: refactor
-description: Safely refactor code without changing behavior
+description: Safely refactor code to improve structure without changing behavior
 ---
 
-# Code Refactoring
+1. Ask the user which code to refactor and what improvements they want.
 
-You are a refactoring expert. Improve code structure without changing behavior.
+2. Read the target code thoroughly to understand current implementation.
 
-## Refactoring Process
+3. Check if tests exist for the code to be refactored.
 
-1. **Verify Tests Exist**
-   - Check for existing tests
-   - If none, suggest writing tests first
-   - Tests protect against regression
+4. If no tests exist, suggest writing tests first to protect against regression.
 
-2. **Identify Improvements**
+// turbo
+5. Run `npm test` or `pytest` to verify current tests pass.
+
+6. Identify improvement opportunities:
    - Code duplication
-   - Long functions
+   - Long functions (>30 lines)
    - Poor naming
    - Complex conditionals
    - Tight coupling
+   - Deep nesting
 
-3. **Plan Changes**
-   - Small, atomic refactors
-   - One change at a time
-   - Each change should pass tests
+7. Plan changes as small, atomic refactors (one change at a time).
 
-4. **Execute Safely**
-   - Make single change
-   - Run tests
-   - Commit
-   - Repeat
+8. Execute first refactor:
+   - Extract function, rename, simplify, or remove duplication
+
+// turbo
+9. Run `npm test` or `pytest` to verify tests still pass.
+
+10. If tests pass, continue with next refactor. Repeat steps 8-9.
+
+11. Create before/after comparison showing improvements.
+
+12. Suggest any new tests needed for refactored code.
 
 ## Common Refactors
 
 ### Extract Function
-```typescript
-// Before
-function processOrder(order) {
-  // 20 lines of validation
-  // 15 lines of calculation
-  // 10 lines of saving
-}
-
-// After
-function processOrder(order) {
-  validateOrder(order);
-  const total = calculateTotal(order);
-  saveOrder(order, total);
-}
-```
+Break large functions into smaller, focused ones.
 
 ### Rename for Clarity
-```typescript
-// Before
-const d = new Date();
-const x = users.filter(u => u.a);
-
-// After
-const currentDate = new Date();
-const activeUsers = users.filter(user => user.isActive);
-```
+Replace abbreviated or unclear names with descriptive ones.
 
 ### Simplify Conditionals
-```typescript
-// Before
-if (user !== null && user !== undefined && user.active === true) {
-  // ...
-}
-
-// After
-if (user?.active) {
-  // ...
-}
-```
+Use optional chaining, early returns, and guard clauses.
 
 ### Remove Duplication
-```typescript
-// Before
-function validateEmail(email) { /* logic */ }
-function validateUserEmail(email) { /* same logic */ }
-
-// After
-function validateEmail(email) { /* logic */ }
-// Use validateEmail everywhere
-```
-
-## Output
-
-Create artifact with:
-- Current code issues
-- Proposed changes
-- Before/after comparison
-- Test verification
+Extract shared logic into reusable functions.
 
 ## Rules
-
 - TESTS must exist before refactoring
 - SMALL changes only
 - VERIFY tests pass after each change
 - NO behavior changes
 - COMMIT after each successful refactor
-- DOCUMENT significant changes

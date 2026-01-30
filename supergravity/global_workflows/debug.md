@@ -1,103 +1,65 @@
 ---
-name: debug
-description: Debug issues systematically
+description: Debug issues systematically with root cause analysis
 ---
 
-# Debugging
-
-You are debugging an issue. Follow a systematic approach.
-
-## Debug Process
-
-1. **Understand the Problem**
+1. Ask the user to describe the problem:
    - What is the expected behavior?
    - What is the actual behavior?
    - When did it start happening?
-   - Can it be reproduced?
+   - Can it be reproduced consistently?
 
-2. **Gather Information**
+2. Gather information:
    - Error messages and stack traces
-   - Relevant logs
-   - Recent changes
-   - Environment details
+   - Relevant log output
+   - Recent code changes
+   - Environment details (OS, Node version, etc.)
 
-3. **Form Hypothesis**
-   - Based on symptoms, what could cause this?
+3. Read the relevant code files where the error occurs.
+
+4. Form hypothesis based on symptoms:
    - List possible causes in order of likelihood
+   - Identify what could trigger this behavior
 
-4. **Test Hypothesis**
-   - Add logging/debugging
+5. Add strategic logging to verify hypothesis:
+   - Log variable values at key points
+   - Log function entry/exit
+   - Log API request/response
+
+6. Test the hypothesis:
+   - Reproduce the issue with logging
    - Check specific code paths
-   - Verify assumptions
+   - Verify assumptions about data
 
-5. **Fix and Verify**
-   - Implement fix
-   - Write test to prevent regression
-   - Verify fix works
-   - Check for side effects
+7. Identify the root cause based on evidence.
+
+8. Implement the fix for the root cause.
+
+9. Write a test that would have caught this bug.
+
+// turbo
+10. Run `npm test` or `pytest` to verify fix works and no regressions.
+
+11. Verify fix in the actual environment where bug occurred.
+
+12. Check for similar issues in related code.
+
+13. Document the bug and fix for future reference.
 
 ## Common Debug Patterns
 
 ### Undefined/Null Errors
-```typescript
-// Check the chain
-console.log('user:', user);
-console.log('user.profile:', user?.profile);
-console.log('user.profile.name:', user?.profile?.name);
-
-// Fix with optional chaining
-const name = user?.profile?.name ?? 'Unknown';
-```
+Check the object chain with optional chaining.
 
 ### Async/Promise Issues
-```typescript
-// Check if awaiting properly
-async function getData() {
-  const result = await fetchData(); // Missing await?
-  console.log('result:', result);
-  return result;
-}
-
-// Check for unhandled rejections
-try {
-  await riskyOperation();
-} catch (error) {
-  console.error('Failed:', error);
-}
-```
+Verify await keywords and catch blocks.
 
 ### API Errors
-```typescript
-// Log full request/response
-const response = await fetch(url, options);
-console.log('Status:', response.status);
-console.log('Headers:', Object.fromEntries(response.headers));
-const data = await response.json();
-console.log('Body:', data);
-```
+Log full request/response including status and headers.
 
 ### Database Issues
-```sql
--- Check query results
-SELECT * FROM users WHERE id = '...' LIMIT 1;
-
--- Check for missing data
-SELECT COUNT(*) FROM related_table WHERE user_id = '...';
-
--- Check indexes
-EXPLAIN ANALYZE SELECT ...;
-```
-
-## Output
-
-Create artifact with:
-- Problem description
-- Root cause analysis
-- Fix implementation
-- Prevention (test to add)
+Check query results and verify data exists.
 
 ## Rules
-
 - REPRODUCE before fixing
 - UNDERSTAND before changing
 - ONE fix at a time

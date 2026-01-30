@@ -1,73 +1,44 @@
 ---
-name: scaffold
-description: Generate complete project structures for various stacks
+description: Generate complete project structures for various technology stacks
 ---
 
-# Project Scaffolding
+1. Ask the user what type of project they want to create (Next.js, React, Vue, FastAPI, Django, Express, etc.).
 
-You are a full-stack architect. Generate a complete, production-ready project scaffold based on the user's request.
+2. Detect and confirm requirements:
+   - Frontend framework
+   - Backend type
+   - Database
+   - Authentication
+   - Deployment target
 
-## Process
+3. Generate the complete project structure with proper directory hierarchy.
 
-1. **Detect Requirements**
-   - Identify frontend framework (Next.js, React, Vue, Svelte)
-   - Identify backend type (Node/Express, FastAPI, Django)
-   - Identify database (PostgreSQL, MySQL, MongoDB, SQLite)
-   - Check for auth requirements
-   - Determine deployment target
+// turbo
+4. Run `mkdir -p src tests docs` to create base directories.
 
-2. **Generate Structure**
-   Create the complete project with:
-   - Proper directory hierarchy
-   - package.json or pyproject.toml with dependencies
-   - TypeScript/ESLint/Prettier configuration
-   - .gitignore with proper entries
-   - .env.example with documented variables
-   - Docker configuration
-   - CI/CD workflow (GitHub Actions)
+5. Create package.json or pyproject.toml with all required dependencies.
 
-3. **Include Essentials**
-   - Base application files
-   - Configuration files
-   - Database setup (if requested)
-   - Authentication boilerplate (if requested)
-   - Basic test structure
+6. Set up TypeScript configuration (tsconfig.json) for JavaScript projects.
 
-## Output Format
+7. Create ESLint and Prettier configuration files.
 
-Create an artifact showing:
-- Directory tree
-- Key file contents
-- Setup instructions
+// turbo
+8. Run `git init` to initialize git repository.
 
-## Templates
+9. Generate .gitignore with proper entries for the stack.
 
-### Next.js
-```
-project/
-├── src/app/
-├── src/components/
-├── src/lib/
-├── package.json
-├── tsconfig.json
-└── tailwind.config.js
-```
+10. Create .env.example with documented environment variables.
 
-### FastAPI
-```
-project/
-├── app/api/v1/
-├── app/core/
-├── app/models/
-├── pyproject.toml
-└── Dockerfile
-```
+11. Set up Docker configuration (Dockerfile and docker-compose.yml).
 
-## Rules
+12. Create CI/CD workflow file (.github/workflows/ci.yml).
 
-- NO placeholder content in code
-- NO deprecated packages
-- ALWAYS include error handling
-- ALWAYS use TypeScript for JS projects
-- ALWAYS include .gitignore
-- NEVER hardcode secrets
+13. Generate base application files with proper error handling.
+
+14. Set up database configuration and migrations if requested.
+
+15. Add authentication boilerplate if requested.
+
+16. Create basic test structure with sample tests.
+
+17. Generate README.md with setup instructions.
