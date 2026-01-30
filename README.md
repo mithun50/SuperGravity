@@ -22,6 +22,7 @@ SuperGravity transforms Google Antigravity IDE into a structured development pla
 - **9 Workflows** - Slash commands for common tasks
 - **3 Rule Sets** - Code quality and security guidelines
 - **10 MCP Servers** - Tool integrations (validated packages)
+- **MCP Registry** - Robust tracking and management
 - **CLI Tool** - Easy installation and management
 
 ---
@@ -52,33 +53,53 @@ cd SuperGravity
 
 ---
 
-## CLI Usage
+## Quick Start
 
 ```bash
-# Install to Antigravity IDE
+# Install SuperGravity to Antigravity IDE
 supergravity install
 
-# Install with specific MCP servers
-supergravity install -m context7 -m playwright -m tavily
-
-# Check installation status
+# Check what's installed
 supergravity status
 
-# List available MCP servers
-supergravity mcp list
-
 # Add an MCP server
-supergravity mcp add tavily --api-key YOUR_KEY
+supergravity mcp add context7
 
-# Remove an MCP server
-supergravity mcp remove tavily
-
-# Update installation
-supergravity update
-
-# Uninstall
-supergravity uninstall
+# Update all MCP servers
+supergravity mcp update --all
 ```
+
+---
+
+## CLI Reference
+
+### Core Commands
+
+| Command | Description |
+|---------|-------------|
+| `supergravity install` | Install SuperGravity to Antigravity IDE |
+| `supergravity uninstall` | Remove SuperGravity |
+| `supergravity update` | Update workflows and rules |
+| `supergravity status` | Check installation status |
+
+### MCP Commands
+
+| Command | Description |
+|---------|-------------|
+| `supergravity mcp list` | List all available MCP servers |
+| `supergravity mcp list --installed` | List only installed servers |
+| `supergravity mcp add <server>` | Install and configure an MCP server |
+| `supergravity mcp add <server> -k KEY` | Install with API key |
+| `supergravity mcp add <server> --no-install` | Add to config only |
+| `supergravity mcp remove <server>` | Remove an MCP server |
+| `supergravity mcp update <server>` | Update a specific server |
+| `supergravity mcp update --all` | Update all installed servers |
+| `supergravity mcp verify` | Verify all servers work |
+| `supergravity mcp verify <server>` | Verify specific server |
+| `supergravity mcp prereq` | Check prerequisites (npm, docker) |
+| `supergravity mcp setup` | Interactive MCP setup |
+| `supergravity mcp sync` | Sync registry with config |
+| `supergravity mcp registry` | Show registry status |
 
 ---
 
@@ -135,6 +156,43 @@ All MCP server packages have been validated and use correct npm/docker packages.
 | github | `ghcr.io/github/github-mcp-server` | `GITHUB_PERSONAL_ACCESS_TOKEN` |
 | postgres | `@modelcontextprotocol/server-postgres` | `POSTGRES_URL` |
 
+### Installing MCP Servers
+
+```bash
+# No API key required
+supergravity mcp add context7
+supergravity mcp add playwright
+supergravity mcp add memory
+
+# With API key
+supergravity mcp add tavily -k YOUR_TAVILY_API_KEY
+supergravity mcp add magic -k YOUR_21ST_DEV_KEY
+
+# Interactive (prompts for key)
+supergravity mcp add github
+```
+
+### MCP Registry
+
+SuperGravity uses a registry to track installed MCP servers:
+
+```bash
+# Check registry status
+supergravity mcp registry
+
+# Sync registry with config file
+supergravity mcp sync
+
+# Verify servers are working
+supergravity mcp verify
+```
+
+The registry tracks:
+- Installation timestamps
+- Configuration checksums (detects changes)
+- Verification status
+- Package versions
+
 ---
 
 ## Configuration Files
@@ -145,6 +203,7 @@ All MCP server packages have been validated and use correct npm/docker packages.
 ├── GEMINI.md                    # Global rules
 └── antigravity/
     ├── mcp_config.json          # MCP server config
+    ├── mcp_registry.json        # MCP registry (auto-generated)
     ├── global_workflows/        # Workflow definitions
     │   ├── scaffold.md
     │   ├── implement.md
@@ -156,7 +215,8 @@ All MCP server packages have been validated and use correct npm/docker packages.
 ```
 %USERPROFILE%\.gemini\
 └── antigravity\
-    └── mcp_config.json
+    ├── mcp_config.json
+    └── mcp_registry.json
 ```
 
 ---
@@ -192,12 +252,6 @@ Instructions for what the agent should do...
 
 Then use with `/my-workflow`.
 
-### Add MCP Server via CLI
-
-```bash
-supergravity mcp add tavily --api-key YOUR_TAVILY_KEY
-```
-
 ### Add MCP Server Manually
 
 Edit `~/.gemini/antigravity/mcp_config.json`:
@@ -214,6 +268,11 @@ Edit `~/.gemini/antigravity/mcp_config.json`:
     }
   }
 }
+```
+
+Then sync the registry:
+```bash
+supergravity mcp sync
 ```
 
 ---
@@ -236,17 +295,68 @@ black supergravity/
 isort supergravity/
 ```
 
----
-
-## Uninstall
+### Build for PyPI
 
 ```bash
-# Via CLI
-supergravity uninstall
+pip install build twine
+python -m build
+twine upload dist/*
+```
 
-# Manual
-rm -rf ~/.gemini/antigravity
-# Edit ~/.gemini/GEMINI.md to remove SuperGravity section
+---
+
+## Troubleshooting
+
+### MCP Server Issues
+
+```bash
+# Check prerequisites
+supergravity mcp prereq
+
+# Verify specific server
+supergravity mcp verify context7
+
+# Force reinstall
+supergravity mcp add context7 --force
+
+# Update to latest
+supergravity mcp update context7
+```
+
+### Registry Out of Sync
+
+```bash
+# Check sync status
+supergravity mcp sync
+
+# Repair registry from config
+supergravity mcp sync  # Then choose "Repair"
+```
+
+### Missing Node.js
+
+MCP servers require Node.js. Install from [nodejs.org](https://nodejs.org).
+
+### Missing Docker
+
+GitHub MCP requires Docker. Install from [docker.com](https://docker.com).
+
+---
+
+## Architecture
+
+```
+supergravity/
+├── __init__.py           # Package info
+├── __main__.py           # CLI entry point
+└── setup/
+    ├── services/
+    │   ├── installer.py      # Core installation
+    │   ├── config.py         # Config management
+    │   ├── mcp_installer.py  # MCP package installation
+    │   └── mcp_registry.py   # MCP tracking registry
+    └── utils/
+        └── paths.py          # Cross-platform paths
 ```
 
 ---
