@@ -6,6 +6,37 @@ All notable changes to SuperGravity will be documented in this file.
 
 ### Added
 
+#### GitHub Actions CI/CD
+- **`.github/workflows/publish.yml`** - Automatic PyPI publishing on GitHub releases
+- **`.github/workflows/test.yml`** - Cross-platform testing (Windows, macOS, Linux) with Python 3.8-3.12
+- Uses PyPI Trusted Publishing (no API token needed)
+
+#### Documentation
+- Windows usage instructions in README and docs
+- Interactive MCP setup selection format documentation
+- Contributing/publishing guide in README
+
+### Fixed
+
+#### MCP Interactive Setup
+- Fixed number selection parsing to support multiple formats:
+  - Space-separated: `1 2 3`
+  - Comma-separated: `1,2,3` or `1, 2, 3`
+  - Ranges: `1-3`
+  - Mixed: `1, 3-5, 7`
+- Better error messages with format examples
+
+#### Package Configuration
+- Fixed `MANIFEST.in` to include correct package data paths
+- Fixed `pyproject.toml` package-data configuration
+- Updated path constants in `__init__.py`
+
+---
+
+## [1.0.0] - 2026-01-30
+
+### Added
+
 #### Workspace Initialization
 - **`supergravity init`** - Initialize `.agent/` workspace structure
 - Creates `.agent/rules/`, `.agent/workflows/`, and `.agent/skills/` directories

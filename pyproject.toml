@@ -9,10 +9,10 @@ description = "Framework for Google Antigravity IDE - Workflows, Rules, and MCP 
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
-    {name = "Mithun", email = "mithun50@example.com"}
+    {name = "Mithun Gowda B", email = "mithungowda.b7411@gmail.com"}
 ]
 maintainers = [
-    {name = "Mithun", email = "mithun50@example.com"}
+    {name = "Mithun Gowda B", email = "mithungowda.b7411@gmail.com"}
 ]
 keywords = [
     "antigravity",
@@ -73,8 +73,9 @@ include-package-data = true
 
 [tool.setuptools.package-data]
 supergravity = [
-    "data/**/*",
-    "SuperGravity/**/*"
+    "global_workflows/*.md",
+    "rules/*.md",
+    "mcp_config.json"
 ]
 
 [tool.black]

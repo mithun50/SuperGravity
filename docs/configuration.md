@@ -488,6 +488,7 @@ export TAVILY_API_KEY=your-key
 
 ### macOS / Linux
 
+**Config Location:**
 ```
 ~/.gemini/
 └── antigravity/
@@ -495,14 +496,41 @@ export TAVILY_API_KEY=your-key
     └── global_workflows/
 ```
 
+**CLI Usage:**
+```bash
+supergravity install
+supergravity mcp setup
+```
+
 ### Windows
 
+**Config Location:**
 ```
 %USERPROFILE%\.gemini\
 └── antigravity\
     ├── mcp_config.json
     └── global_workflows\
 ```
+
+**CLI Usage:**
+
+If `supergravity` command is not found after `pip install`:
+
+```bash
+# Option 1: Use Python module syntax
+python -m supergravity install
+python -m supergravity mcp setup
+
+# Option 2: Add Scripts to PATH
+# Add %USERPROFILE%\AppData\Local\Programs\Python\PythonXX\Scripts to PATH
+# Then restart your terminal
+
+# Option 3: Use pipx (recommended)
+pipx install supergravity
+supergravity install
+```
+
+**Why this happens:** Windows doesn't automatically add Python's Scripts folder to PATH. Using `python -m supergravity` always works as a fallback.
 
 ---
 

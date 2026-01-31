@@ -287,6 +287,51 @@ Run this migration
 
 ---
 
+## Interactive Setup
+
+The easiest way to install MCP servers is the interactive setup:
+
+```bash
+supergravity mcp setup
+```
+
+This shows all available servers and lets you select which to install:
+
+```
+Available MCP Servers:
+
+No API Key Required:
+  1. context7              - Framework documentation - React, Next.js, Vue, etc.
+  2. sequential-thinking   - Complex multi-step reasoning
+  3. playwright            - Browser automation and E2E testing
+  4. filesystem            - File system operations
+  5. memory                - Persistent memory across sessions
+
+API Key Required:
+  6. magic                 - UI component generation from 21st.dev (TWENTYFIRST_API_KEY)
+  7. tavily                - Web search for research (TAVILY_API_KEY)
+  8. firecrawl             - Web scraping and content extraction (FIRECRAWL_API_KEY)
+  9. github                - GitHub operations - PRs, issues, repos (GITHUB_PERSONAL_ACCESS_TOKEN)
+  10. postgres             - PostgreSQL database operations (POSTGRES_URL)
+
+Formats: '1 2 3', '1,2,3', '1-3', 'all', 'skip'
+Enter server numbers to install [all]:
+```
+
+### Selection Formats
+
+| Format | Example | Installs |
+|--------|---------|----------|
+| Space-separated | `1 2 3` | Servers 1, 2, 3 |
+| Comma-separated | `1,2,3` | Servers 1, 2, 3 |
+| Comma with spaces | `1, 2, 3` | Servers 1, 2, 3 |
+| Ranges | `1-3` | Servers 1, 2, 3 |
+| Mixed | `1, 3-5, 7` | Servers 1, 3, 4, 5, 7 |
+| All no-key servers | `all` | Servers 1-5 |
+| Skip installation | `skip` | None |
+
+---
+
 ## Managing MCP Servers
 
 ### List Servers

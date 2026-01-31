@@ -72,6 +72,54 @@ def install(force: bool, mcp: tuple, skip_mcp_install: bool):
         sys.exit(1)
 
 
+def _parse_selection(selection: str, max_count: int) -> list:
+    """
+    Parse user selection for MCP servers.
+
+    Supports:
+    - Space-separated: "1 2 3"
+    - Comma-separated: "1,2,3" or "1, 2, 3"
+    - Ranges: "1-3" or "1-3, 5"
+    - Mixed: "1, 2-4, 6"
+
+    Returns list of 0-indexed integers.
+    """
+    import re
+
+    indices = set()
+
+    # Normalize: replace commas with spaces
+    normalized = selection.replace(",", " ")
+
+    # Split on whitespace
+    parts = normalized.split()
+
+    for part in parts:
+        part = part.strip()
+        if not part:
+            continue
+
+        # Check for range (e.g., "1-3")
+        if "-" in part and not part.startswith("-"):
+            range_match = re.match(r"(\d+)-(\d+)", part)
+            if range_match:
+                start, end = int(range_match.group(1)), int(range_match.group(2))
+                for i in range(start, end + 1):
+                    if 1 <= i <= max_count:
+                        indices.add(i - 1)  # Convert to 0-indexed
+            else:
+                raise ValueError(f"Invalid range: {part}")
+        else:
+            # Single number
+            num = int(part)
+            if 1 <= num <= max_count:
+                indices.add(num - 1)  # Convert to 0-indexed
+            else:
+                raise ValueError(f"Number {num} out of range (1-{max_count})")
+
+    return sorted(list(indices))
+
+
 def _interactive_mcp_setup():
     """Interactive MCP server setup"""
     mcp_installer = MCPInstallerService()
@@ -107,8 +155,9 @@ def _interactive_mcp_setup():
     console.print("")
 
     # Ask which to install
+    console.print("[dim]Formats: '1 2 3', '1,2,3', '1-3', 'all', 'skip'[/dim]")
     selection = Prompt.ask(
-        "Enter server numbers to install (e.g., '1 2 3') or 'all' for no-key servers",
+        "Enter server numbers to install",
         default="all"
     )
 
@@ -119,11 +168,17 @@ def _interactive_mcp_setup():
         to_install = [s["name"] for s in no_key]
     else:
         try:
-            indices = [int(x) - 1 for x in selection.split()]
+            # Parse selection - handle "1 2 3", "1,2,3", "1, 2, 3", "1-3"
             all_servers = no_key + with_key
-            to_install = [all_servers[i]["name"] for i in indices if 0 <= i < len(all_servers)]
-        except (ValueError, IndexError):
-            console.print("[red]Invalid selection[/red]")
+            indices = _parse_selection(selection, len(all_servers))
+            if not indices:
+                console.print("[red]Invalid selection[/red]")
+                console.print("[dim]Examples: '1 2 3', '1,2,3', '1-3', 'all', 'skip'[/dim]")
+                return
+            to_install = [all_servers[i]["name"] for i in indices]
+        except (ValueError, IndexError) as e:
+            console.print(f"[red]Invalid selection:[/red] {e}")
+            console.print("[dim]Examples: '1 2 3', '1,2,3', '1-3', 'all', 'skip'[/dim]")
             return
 
     # Install selected servers
