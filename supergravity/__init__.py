@@ -5,7 +5,7 @@ A comprehensive framework providing workflows, rules, and MCP configurations
 for enhanced development with Google Antigravity IDE.
 """
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __author__ = "Mithun Gowda B"
 __email__ = "mithungowda.b7411@gmail.com"
 __license__ = "MIT"

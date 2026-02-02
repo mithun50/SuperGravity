@@ -2,6 +2,18 @@
 
 All notable changes to SuperGravity will be documented in this file.
 
+## [1.0.1] - 2026-02-02
+
+### Fixed
+
+#### Windows Compatibility
+- Fixed `[WinError 2] The system cannot find the file specified` error when installing MCP servers on Windows
+- Added `shell=True` for subprocess calls on Windows platform
+- On Windows, `npm`, `npx`, and `docker` are batch files (`.cmd`) that require shell execution
+- Affects: `mcp_installer.py` - all subprocess.run() calls now use `shell=IS_WINDOWS`
+
+---
+
 ## [1.1.0] - 2026-01-30
 
 ### Added

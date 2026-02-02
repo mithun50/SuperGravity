@@ -1,6 +1,6 @@
 {
   "name": "supergravity",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Transform Google Antigravity into a structured development platform",
   "main": "index.js",
   "bin": {
@@ -20,13 +20,13 @@
     "agents",
     "mcp"
   ],
-  "author": "",
+  "author": "Mithun Gowda B <mithungowda.b7411@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/user/SuperGravity.git"
+    "url": "https://github.com/mithun50/SuperGravity.git"
   },
-  "homepage": "https://github.com/user/SuperGravity#readme",
+  "homepage": "https://github.com/mithun50/SuperGravity#readme",
   "engines": {
     "node": ">=18.0.0"
   }

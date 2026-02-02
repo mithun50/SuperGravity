@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "supergravity"
-version = "1.0.0"
+version = "1.0.1"
 description = "Framework for Google Antigravity IDE - Workflows, Rules, and MCP Configurations"
 readme = "README.md"
 license = {text = "MIT"}

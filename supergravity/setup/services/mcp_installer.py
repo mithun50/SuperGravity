@@ -3,8 +3,12 @@
 import json
 import subprocess
 import shutil
+import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Any
+
+# On Windows, npm/npx are .cmd batch files that need shell=True
+IS_WINDOWS = sys.platform == "win32"
 
 from rich.console import Console
 
@@ -186,7 +190,8 @@ class MCPInstallerService:
                     ["node", "--version"],
                     capture_output=True,
                     text=True,
-                    timeout=10
+                    timeout=10,
+                    shell=IS_WINDOWS
                 )
                 results["node_version"] = result.stdout.strip()
             except Exception:
@@ -526,7 +531,8 @@ class MCPInstallerService:
                 cmd,
                 capture_output=True,
                 text=True,
-                timeout=180
+                timeout=180,
+                shell=IS_WINDOWS
             )
 
             return {
@@ -561,7 +567,8 @@ class MCPInstallerService:
                 ["docker", "pull", image],
                 capture_output=True,
                 text=True,
-                timeout=300
+                timeout=300,
+                shell=IS_WINDOWS
             )
 
             if result.returncode == 0:
@@ -604,7 +611,8 @@ class MCPInstallerService:
                 command,
                 capture_output=True,
                 text=True,
-                timeout=300
+                timeout=300,
+                shell=IS_WINDOWS
             )
 
             return {
@@ -636,7 +644,8 @@ class MCPInstallerService:
                     ["npx", "-y", package, "--help"],
                     capture_output=True,
                     text=True,
-                    timeout=30
+                    timeout=30,
+                    shell=IS_WINDOWS
                 )
 
                 success = result.returncode == 0
@@ -662,7 +671,8 @@ class MCPInstallerService:
                     ["docker", "images", "-q", server["package"]],
                     capture_output=True,
                     text=True,
-                    timeout=10
+                    timeout=10,
+                    shell=IS_WINDOWS
                 )
 
                 success = bool(result.stdout.strip())
