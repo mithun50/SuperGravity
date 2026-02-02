@@ -2,14 +2,7 @@
   "name": "supergravity",
   "version": "1.0.1",
   "description": "Transform Google Antigravity into a structured development platform",
-  "main": "index.js",
-  "bin": {
-    "supergravity": "./bin/supergravity.js"
-  },
-  "scripts": {
-    "install": "node bin/install.js",
-    "postinstall": "node bin/install.js"
-  },
+  "private": true,
   "keywords": [
     "antigravity",
     "google",
@@ -26,8 +19,5 @@
     "type": "git",
     "url": "https://github.com/mithun50/SuperGravity.git"
   },
-  "homepage": "https://github.com/mithun50/SuperGravity#readme",
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "homepage": "https://github.com/mithun50/SuperGravity#readme"
 }
