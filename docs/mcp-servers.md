@@ -10,6 +10,7 @@ MCP (Model Context Protocol) is a standard that allows AI assistants to interact
 - **playwright:** Browser automation
 - **memory:** Persistent memory across sessions
 - **github:** GitHub operations
+- **gbr:** Build Remote Agent phone pairing (`gbr/1`, loopback `:8788` / `gbr-mcp`)
 
 ---
 
@@ -220,6 +221,27 @@ supergravity mcp add firecrawl -k YOUR_FIRECRAWL_API_KEY
 ```
 Scrape the documentation from this URL
 Extract the API reference from this page
+```
+
+---
+
+#### gbr
+
+**Purpose:** Pair a phone running [Build Remote Agent](https://grokbuildremote.com/) to this Antigravity desktop session. Protocol `gbr/1`. Phone is spectator + veto. Independent product — not affiliated with xAI or SpaceX. No API key. Never put mailbox keys in `mcp_config.json`.
+
+Install `gbr-agent` v0.6.0+, then `gbr-agent pair && gbr-agent run`. Attach via stdio `gbr-mcp` (entry below) or HTTP `http://127.0.0.1:8788` (`serverUrl` in Antigravity raw config). Clone https://github.com/LinespottingOrg/GrokBuildRemote-Agents and `npm install` in `mcp/gbr-mcp`.
+
+```json
+{
+  "gbr": {
+    "command": "node",
+    "args": ["GrokBuildRemote-Agents/mcp/gbr-mcp/bin/gbr-mcp.js"]
+  }
+}
+```
+
+```bash
+curl -sS http://127.0.0.1:8788/health
 ```
 
 ---
