@@ -1,5 +1,32 @@
 # MCP Servers Guide
 
+## Install (SHA-256)
+
+Pin GitHub Release **v0.6.0** and verify `SHA256SUMS`. Website `install.sh` / `install.ps1` abort on mismatch.
+
+https://github.com/LinespottingOrg/GrokBuildRemote-Agents/releases/tag/v0.6.0
+https://github.com/LinespottingOrg/GrokBuildRemote-Agents/blob/main/docs/PINNED-INSTALL.md
+
+```
+96cef605d3e030ccef99d27ea6240e0d3b668dd045e6b5b9e585c9fd03c6ef23  gbr-agent-darwin-amd64
+de7e065ef2cf6877b3b2cd04679a67b627f876337f529247e236204543e4062c  gbr-agent-darwin-arm64
+a50a5c41993e6531a3b477eb409ccc845212bf541384dc803061c80657f86719  gbr-agent-linux-amd64
+5bfd22c7110234942c4c02ff8154b836d0af45a9422c178a4f52010187d40061  gbr-agent-linux-arm64
+f773b89fd31310172b756e0593e0f3b2382b0a3440af2a7d0a8b3073b0c23e27  gbr-agent-windows-amd64.exe
+8fb9efcbc7e2ac91c11964944bf0f45e31bb23f4356d9dcb4b305d7cb9b0fe8c  gbr-agent-windows-arm64.exe
+```
+
+```bash
+VER=v0.6.0
+BASE=https://github.com/LinespottingOrg/GrokBuildRemote-Agents/releases/download/$VER
+# swap darwin-arm64 for your OS/arch
+curl -fsSL -o gbr-agent-darwin-arm64 "$BASE/gbr-agent-darwin-arm64"
+curl -fsSL -o SHA256SUMS "$BASE/SHA256SUMS"
+shasum -a 256 -c SHA256SUMS --ignore-missing
+gbr-agent pair && gbr-agent run
+```
+
+
 Model Context Protocol (MCP) servers extend Antigravity IDE with additional capabilities. SuperGravity includes 10 validated MCP server configurations.
 
 ## What is MCP?
@@ -10,6 +37,7 @@ MCP (Model Context Protocol) is a standard that allows AI assistants to interact
 - **playwright:** Browser automation
 - **memory:** Persistent memory across sessions
 - **github:** GitHub operations
+- **gbr:** Build Remote Agent phone pairing (`gbr/1`, loopback `:8788` / `gbr-mcp`)
 
 ---
 
@@ -220,6 +248,27 @@ supergravity mcp add firecrawl -k YOUR_FIRECRAWL_API_KEY
 ```
 Scrape the documentation from this URL
 Extract the API reference from this page
+```
+
+---
+
+#### gbr
+
+**Purpose:** Pair a phone running [Build Remote Agent](https://grokbuildremote.com/) to this Antigravity desktop session. Protocol `gbr/1`. Phone is spectator + veto. Independent product — not affiliated with xAI or SpaceX. No API key. Never put mailbox keys in `mcp_config.json`.
+
+Install `gbr-agent` v0.6.0+, then `gbr-agent pair && gbr-agent run`. Attach via stdio `gbr-mcp` (entry below) or HTTP `http://127.0.0.1:8788` (`serverUrl` in Antigravity raw config). Clone https://github.com/LinespottingOrg/GrokBuildRemote-Agents and `npm install` in `mcp/gbr-mcp`.
+
+```json
+{
+  "gbr": {
+    "command": "node",
+    "args": ["GrokBuildRemote-Agents/mcp/gbr-mcp/bin/gbr-mcp.js"]
+  }
+}
+```
+
+```bash
+curl -sS http://127.0.0.1:8788/health
 ```
 
 ---
@@ -511,3 +560,10 @@ supergravity mcp sync
 3. **Keep Updated:** Run `supergravity mcp update --all` periodically
 4. **Verify After Install:** Always run `supergravity mcp verify`
 5. **Secure Keys:** Never commit API keys to git
+
+## What the phone sees
+
+**Terminal windows** on this PC (machine-wide mailbox). Not headless OpenCode / CodeNomad sidecar / Electron. `:8788` in a sidecar is Bot API JSON, not a transcript.
+
+https://github.com/LinespottingOrg/GrokBuildRemote-Agents/blob/main/docs/WHAT-THE-PHONE-SEES.md
+https://grokbuildremote.com/integrations.html
